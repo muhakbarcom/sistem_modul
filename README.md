@@ -1,1 +1,1 @@
-# InternshipInformationSystem
+# InternshipInformationSystems
