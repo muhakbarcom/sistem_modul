@@ -80,7 +80,7 @@ class Auth extends CI_Controller
 				'type' => 'password',
 			);
 
-			$this->_render_page('auth' . DIRECTORY_SEPARATOR . 'login', $this->data);
+			$this->_render_page($this->config->item('template') . 'auth' . DIRECTORY_SEPARATOR . 'login', $this->data);
 		}
 	}
 
@@ -834,7 +834,7 @@ class Auth extends CI_Controller
 
 	public function register_user()
 	{
-		$this->data['title'] = "Daftar Akun Baru";
+		$this->data['title'] = "Register New Account";
 
 		// if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
 		// 	redirect('auth', 'refresh');
@@ -866,8 +866,10 @@ class Auth extends CI_Controller
 				'first_name' => $this->input->post('first_name'),
 				'last_name' => $this->input->post('last_name'),
 			);
+			$group = $this->input->post('group');
+			$groups = array($group); // Sets user to admin.
 		}
-		if ($this->form_validation->run() === TRUE && $this->ion_auth->register($identity, $password, $email, $additional_data)) {
+		if ($this->form_validation->run() === TRUE && $this->ion_auth->register($identity, $password, $email, $additional_data, $groups)) {
 			// check to see if we are creating the user
 			// redirect them back to the admin page
 			$this->session->set_flashdata('success', $this->ion_auth->messages());
@@ -922,7 +924,7 @@ class Auth extends CI_Controller
 			];
 
 			// $this->data['page'] = 'auth/register_user';
-			$this->load->view('auth/register_user', $this->data);
+			$this->load->view($this->config->item('template') . 'auth/register_user', $this->data);
 			//$this->_render_page('auth' . DIRECTORY_SEPARATOR . 'create_user', $this->data);
 		}
 	}

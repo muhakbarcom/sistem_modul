@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2022 at 08:54 AM
+-- Generation Time: Jun 29, 2023 at 02:00 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gpp_system`
+-- Database: `iis_project`
 --
 
 -- --------------------------------------------------------
@@ -191,21 +191,11 @@ INSERT INTO `groups_menu` (`id_groups`, `id_menu`) VALUES
 (3, 4),
 (5, 4),
 (1, 109),
-(1, 108),
 (1, 110),
 (1, 111),
 (1, 112),
 (1, 113),
 (1, 114),
-(1, 115),
-(1, 118),
-(0, 121),
-(1, 1),
-(8, 1),
-(9, 1),
-(10, 1),
-(11, 1),
-(12, 1),
 (1, 3),
 (8, 3),
 (9, 3),
@@ -218,8 +208,6 @@ INSERT INTO `groups_menu` (`id_groups`, `id_menu`) VALUES
 (12, 119),
 (1, 117),
 (10, 117),
-(1, 42),
-(8, 42),
 (1, 92),
 (8, 92),
 (1, 107),
@@ -230,10 +218,19 @@ INSERT INTO `groups_menu` (`id_groups`, `id_menu`) VALUES
 (8, 8),
 (1, 44),
 (8, 44),
-(1, 43),
-(8, 43),
 (1, 120),
-(12, 120);
+(12, 120),
+(1, 121),
+(1, 43),
+(1, 122),
+(1, 123),
+(1, 124),
+(1, 125),
+(1, 126),
+(13, 127),
+(14, 127),
+(13, 130),
+(13, 131);
 
 -- --------------------------------------------------------
 
@@ -395,31 +392,25 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`id_menu`, `sort`, `level`, `parent_id`, `icon`, `label`, `link`, `id`, `id_menu_type`) VALUES
-(1, 0, 1, 0, 'empty', 'MAIN NAVIGATION', '#', '#', 1),
-(3, 1, 2, 1, 'fas fa-tachometer-alt', 'Dashboard', 'dashboard', '#', 1),
-(4, 23, 2, 121, 'fas fa-table', 'CRUD Generator', 'crudbuilder', '1', 1),
-(8, 13, 3, 40, 'fas fa-bars', 'Menu', 'cms/menu/side-menu', 'navMenu', 1),
-(40, 11, 2, 121, 'empty', 'DEV', '#', '#', 1),
-(42, 10, 2, 121, 'fas fa-users-cog', 'User', '#', '1', 1),
-(43, 7, 2, 92, 'fas fa-user-friends', 'User Management', 'users', '1', 1),
-(44, 9, 2, 121, 'fas fa-angle-double-right', 'Roles', 'groups', '2', 1),
-(89, 24, 2, 121, 'fas fa-th-list', 'Menu Type', 'menu_type', 'menu_type', 1),
-(92, 6, 1, 0, 'empty', 'MASTER DATA', '#', 'masterdata', 1),
-(107, 12, 3, 40, 'fas fa-cog', 'Setting', 'setting', 'setting', 1),
-(108, 16, 2, 121, 'fas fa-database', 'View Data', '#', '#', 1),
-(109, 22, 2, 121, 'fas fa-align-justify', 'Frontend Menu', 'frontend_menu', 'Frontend Menu', 1),
-(110, 17, 3, 108, 'fas fa-user-graduate', 'Client', 'V_client', '#', 1),
-(111, 18, 3, 108, 'far fa-check-circle', 'Milestone', 'V_milestone', '#', 1),
-(112, 19, 3, 108, 'fas fa-project-diagram', 'Project', 'V_project', '#', 1),
-(113, 20, 3, 108, 'fas fa-users', 'Project Member', 'V_project_member', '#', 1),
-(114, 21, 3, 108, 'fas fa-user-tie', 'Employee', 'V_employee', '#', 1),
-(115, 14, 2, 121, 'fas fa-chart-pie', 'Report Management', '#', '#', 1),
-(116, 2, 2, 1, 'far fa-money-bill-alt', 'Project Cost', 'Report/project_cost', '#', 1),
-(117, 5, 2, 1, 'fas fa-user-clock', 'Logtime', 'Report/logtime', '#', 1),
-(118, 15, 2, 121, 'fas fa-flag', 'Milestone', 'Master/milestone', '#', 1),
-(119, 3, 2, 1, 'fas fa-dollar-sign', 'Profitability Report', 'Report/profitability_report', '#', 1),
-(120, 4, 2, 1, 'fas fa-chart-line', 'Top 5 & Bottom 5', 'Report/top_bottom_5', '#', 1),
-(121, 8, 1, 0, 'fab fa-apper', 'Hidden Menu', '#', '#', 1);
+(3, 0, 1, 0, 'fas fa-tachometer-alt', 'Dashboard', 'dashboard', '#', 1),
+(4, 20, 2, 121, 'fas fa-table', 'CRUD Generator', 'crudbuilder', '1', 1),
+(8, 17, 2, 40, 'fas fa-bars', 'Menu', 'cms/menu/side-menu', 'navMenu', 1),
+(40, 15, 1, 0, 'empty', 'DEV', '#', '#', 1),
+(43, 13, 2, 92, 'fas fa-user-friends', 'User', 'users', '1', 1),
+(44, 14, 2, 92, 'fas fa-angle-double-right', 'Roles', 'groups', '2', 1),
+(89, 21, 2, 121, 'fas fa-th-list', 'Menu Type', 'menu_type', 'menu_type', 1),
+(92, 12, 1, 0, 'empty', 'MASTER DATA', '#', 'masterdata', 1),
+(107, 16, 2, 40, 'fas fa-cog', 'Setting', 'setting', 'setting', 1),
+(109, 19, 2, 121, 'fas fa-align-justify', 'Frontend Menu', 'frontend_menu', 'Frontend Menu', 1),
+(121, 18, 1, 0, 'fab fa-apper', 'Hidden Menu', '#', '#', 1),
+(122, 10, 1, 0, 'fas fa-users', 'Kelola Mentoring', 'kelola_mentoring', 'kelola_mentoring', 1),
+(123, 11, 1, 0, 'fas fa-calendar-alt', 'Kelola Internship', 'kelola_internship', 'kelola_internship', 1),
+(124, 4, 1, 0, 'fas fa-book', 'kelola Laporan', 'kelola_laporan', 'kelola_laporan', 1),
+(125, 6, 1, 0, 'fas fa-pencil-alt', 'Kelola Penilaian', 'kelola_penilaian', 'kelola_penilaian', 1),
+(126, 7, 1, 0, 'far fa-sticky-note', 'Kelola Sertifikat', 'kelola_sertifikat', 'kelola_sertifikat', 1),
+(127, 2, 1, 0, 'fas fa-user-friends', 'Mentoring', 'mentoring', 'mentoring', 1),
+(130, 1, 1, 0, 'fas fa-user-check', 'Internship Role', 'internship_role', 'internship_role', 1),
+(131, 3, 1, 0, 'fas fa-box-open', 'Internship Saya', 'internship_saya', 'internship_saya', 1);
 
 -- --------------------------------------------------------
 
@@ -656,12 +647,9 @@ CREATE TABLE `role` (
 --
 
 INSERT INTO `role` (`id`, `name`, `description`) VALUES
-(1, 'admin', 'Administrator'),
-(8, 'HCD', 'Human Capital Development'),
-(9, 'Operational', 'Operational'),
-(10, 'Product Owner', 'Product Owner'),
-(11, 'Finance', 'Finance'),
-(12, 'C-Level', 'CMO CFO CEO');
+(1, 'admin', 'Admin'),
+(13, 'mahasiswa', 'Mahasiswa'),
+(14, 'mentor_spv', 'Mentor / Supervisor');
 
 -- --------------------------------------------------------
 
@@ -681,7 +669,7 @@ CREATE TABLE `setting` (
 --
 
 INSERT INTO `setting` (`id`, `kode`, `nama`, `nilai`) VALUES
-(1, 'Logo-Main.png', 'GITS Project Profitability System', 'www.muhakbar.com');
+(1, 'channels4_profile.jpg', 'Telkom Internship Information System', 'www.tiis.com');
 
 -- --------------------------------------------------------
 
@@ -706,12 +694,11 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `password`, `email`, `active`, `first_name`, `last_name`, `phone`, `image`) VALUES
 (1, '$2y$08$PNwyjmAyqJbdbt9mn.150uZQCqlK5ytySGzxE/5A8/XVkbs9gvf2y', 'admin@muhakbar.com', 1, 'Muhammad', 'Akbar', '123213213', 'akbr_pp_2.jpg'),
-(12, '$2y$08$5r/ev9c2USsQTfL8fC4gOecSy3n3JDHQ0O.KDieOOqdIMRK5.RQz.', 'po@muhakbar.com', 1, 'Ahmad', 'PO', '089999999999', 'default.jpg'),
-(13, '$2y$08$OEHBw56IjvDxrwIootFHcOZR7s4h4IelnISYVUg12W.YYFeIM48ga', 'finance@muhakbar.com', 1, 'Dadang2', 'Finance', '7878787787', 'default.jpg'),
-(14, '$2y$08$yG3E7l3pJjmcFffFS8AyG.iydpTVDNMFA.dlgWfBFCSesRkVfxo9i', 'clevel1@muhakbar.com', 1, 'Mega', 'CFO', '0888888', 'default.jpg'),
-(15, '$2y$08$S05xOZOereD7s/WAj4gKL.x0SwfQCfEVndZSoioJXqeJsh3kUIpbG', 'ops@muhakbar.com', 1, 'Muz', 'OPS', '78787878', 'default.jpg'),
-(16, '$2y$08$o/HqH//lZpb/tM3sg8tTN.57P9uKmrrQWq2k3tqUWYibZupzHm1Qy', 'hcd@muhakbar.com', 1, 'Uli', 'HCD', '89898989', 'default.jpg'),
-(17, '$2y$08$waLK0kD2M9E7QoDMZxwqLOOMYudmUcvKFXS.seW2qOvSXWvXAmVXW', 'hcd2@muhakbar.com', 0, 'Dodi', 'Rabka', '08977777', 'default.jpg');
+(20, '$2y$08$TLGUmu.Cj7y6xAhWm9qHhOgyGzT07GpkdYl6XsSPsjXJBLII74EZm', 'fajar@gmail.com', 1, 'fajar', 'mantri', NULL, 'default.jpg'),
+(21, '$2y$08$krvXwJ6uSoIZoA1xAei9POvcouRCujlpJLUhBWd85jKz6Vh7xl4sq', 'cobarole@gmail.com', 1, 'cobaRole', 'asdsad', NULL, 'default.jpg'),
+(22, '$2y$08$JFt2s1q4TR9CknbUrF3KAuCmsaE2U5McPKw9kZJikw5hRbW14miRu', 'mentor@gmail.com', 1, 'coba mentor', 'mentor', NULL, 'default.jpg'),
+(23, '$2y$08$AMSF.FnwbTyJigUQRCCpre8.JaqbKzzDLOwBcaIjUIrVgOKLfSUUS', 'mentor2@gmail.com', 1, 'mentor', '2', NULL, 'default.jpg'),
+(24, '$2y$08$7XGvwDMIQqUSm/wF34B3AeXk17wWXdBLZSAFNIIQaFhXqxXVoZRlm', 'mahasiswa@gmail.com', 1, 'Mahasiswa', '1', NULL, 'default.jpg');
 
 -- --------------------------------------------------------
 
@@ -731,13 +718,11 @@ CREATE TABLE `users_groups` (
 
 INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
 (36, 1, 1),
-(37, 12, 10),
-(44, 13, 11),
-(39, 14, 12),
-(40, 15, 9),
-(41, 16, 8),
-(42, 17, 1),
-(43, 17, 8);
+(48, 20, 13),
+(49, 21, 1),
+(50, 22, 1),
+(51, 23, 14),
+(52, 24, 13);
 
 -- --------------------------------------------------------
 
@@ -1095,7 +1080,7 @@ ALTER TABLE `logtime`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `menu_type`
@@ -1125,7 +1110,7 @@ ALTER TABLE `project_member`
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `setting`
@@ -1137,13 +1122,13 @@ ALTER TABLE `setting`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `users_groups`
 --
 ALTER TABLE `users_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- Constraints for dumped tables

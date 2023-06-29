@@ -46,7 +46,7 @@ $setting_aplikasi = $this->db->get('setting')->row();
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
   <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script> -->
 
   <script src="<?= base_url(); ?>assets/plugins/alertify/alertify.js"></script>
 
@@ -63,227 +63,123 @@ $setting_aplikasi = $this->db->get('setting')->row();
   <script src="<?= base_url(); ?>assets/js/bootstrap-datetimepicker.min.js"></script>
   <script src="<?= base_url(); ?>assets/js/bootstrap-datetimepicker.id.js"></script>
 
+  <!-- <script src="<?php echo base_url(); ?>stisla_assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js"></script> -->
   <script src="<?php echo base_url(); ?>stisla_assets/modules/jquery-ui/jquery-ui.min.js"></script>
+  <!-- <script src="<?php echo base_url(); ?>stisla_assets/js/page/modules-datatables.js"></script> -->
 </head>
 
-<body class="layout-3">
+<body>
   <div id="app">
-    <div class="main-wrapper container">
-      <div class="navbar-bg bg-success" style="height: 80px;"></div>
-      <nav class="navbar navbar-expand-lg main-navbar" style="top: 0;">
-        <a href="<?= base_url(); ?>" class="navbar-brand sidebar-gone-hide">
-          <img src="<?= base_url('assets/uploads/image/logo/') . $setting_aplikasi->kode; ?>" alt="" class="img-thumbnail" style="height:50px">
-        </a>
-        <a href="#" class="nav-link sidebar-gone-show" data-toggle="sidebar"><i class="fas fa-bars"></i></a>
-        <div class="nav-collapse">
-          <a class="sidebar-gone-show nav-collapse-toggle nav-link" href="#">
-            <i class="fas fa-ellipsis-v"></i>
-          </a>
-          <ul class="navbar-nav">
-            <?php if (!$this->ion_auth->logged_in()) : ?>
-              <!-- <li class="nav-item active"><a href="#" class="nav-link">Application</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Report Something</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Server Status</a></li> -->
-            <?php endif; ?>
-          </ul>
-        </div>
-        <form class="form-inline ml-auto">
-          <ul class="navbar-nav">
+    <div class="main-wrapper main-wrapper-1">
+      <div class="navbar-bg"></div>
+      <nav class="navbar navbar-expand-lg main-navbar">
+        <form class="form-inline mr-auto">
+          <ul class="navbar-nav mr-3">
+            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
             <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i class="fas fa-search"></i></a></li>
           </ul>
         </form>
         <ul class="navbar-nav navbar-right">
-          <?php if ($this->ion_auth->logged_in()) : ?>
-            <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
-              <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                <div class="dropdown-header">Notifications
-                  <div class="float-right">
-                    <a href="#">Mark All As Read</a>
-                  </div>
-                </div>
-                <div class="dropdown-list-content dropdown-list-icons">
-                  <a href="#" class="dropdown-item dropdown-item-unread">
-                    <div class="dropdown-item-icon bg-primary text-white">
-                      <i class="fas fa-code"></i>
-                    </div>
-                    <div class="dropdown-item-desc">
-                      Template update is available now!
-                      <div class="time text-primary">2 Min Ago</div>
-                    </div>
-                  </a>
-                  <a href="#" class="dropdown-item">
-                    <div class="dropdown-item-icon bg-info text-white">
-                      <i class="far fa-user"></i>
-                    </div>
-                    <div class="dropdown-item-desc">
-                      <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-                      <div class="time">10 Hours Ago</div>
-                    </div>
-                  </a>
-                  <a href="#" class="dropdown-item">
-                    <div class="dropdown-item-icon bg-success text-white">
-                      <i class="fas fa-check"></i>
-                    </div>
-                    <div class="dropdown-item-desc">
-                      <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
-                      <div class="time">12 Hours Ago</div>
-                    </div>
-                  </a>
-                  <a href="#" class="dropdown-item">
-                    <div class="dropdown-item-icon bg-danger text-white">
-                      <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <div class="dropdown-item-desc">
-                      Low disk space. Let's clean it!
-                      <div class="time">17 Hours Ago</div>
-                    </div>
-                  </a>
-                  <a href="#" class="dropdown-item">
-                    <div class="dropdown-item-icon bg-info text-white">
-                      <i class="fas fa-bell"></i>
-                    </div>
-                    <div class="dropdown-item-desc">
-                      Welcome to Stisla template!
-                      <div class="time">Yesterday</div>
-                    </div>
-                  </a>
-                </div>
-                <div class="dropdown-footer text-center">
-                  <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-                </div>
-              </div>
-            </li>
-            <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                <img alt="image" src="<?php echo base_url('assets/uploads/image/profile/' . $this->ion_auth->user()->row()->image); ?>" class="rounded-circle mr-1">
-                <div class="d-sm-none d-lg-inline-block">Hi, <?= $this->ion_auth->user()->row()->first_name . " " . $this->ion_auth->user()->row()->last_name; ?> </div>
+          <li class="dropdown"><a href="#" id="syncBtn" data-toggle="dropdown" class="btn btn-primary nav-link nav-link-lg message-toggle beep shadow-none"><i class="fas fa-sync"></i>
+              <div class="d-sm-none d-lg-inline-block">Sync</div>
+            </a>
+          </li>
+          <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+              <img alt="image" src="<?php echo base_url('assets/uploads/image/profile/' . $this->ion_auth->user()->row()->image); ?>" class="rounded-circle mr-1">
+              <div class="d-sm-none d-lg-inline-block">Hi, <?= $this->ion_auth->user()->row()->first_name . " " . $this->ion_auth->user()->row()->last_name; ?> </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <div class="dropdown-title"><?= $this->ion_auth->user()->row()->first_name . " " . $this->ion_auth->user()->row()->last_name; ?> (<?= $user_groups = $this->ion_auth->get_users_groups($this->session->userdata('user_id'))->result()[0]->name; ?>)</div>
+              <a href="<?php echo base_url('profile'); ?>" class="dropdown-item has-icon">
+                <i class="far fa-user"></i> Profile
               </a>
-              <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-title"><?= $this->ion_auth->user()->row()->first_name . " " . $this->ion_auth->user()->row()->last_name; ?> (<?= $user_groups = $this->ion_auth->get_users_groups($this->session->userdata('user_id'))->result()[0]->name; ?>)</div>
-                <a href="<?php echo base_url('profile'); ?>" class="dropdown-item has-icon">
-                  <i class="far fa-user"></i> Profile
-                </a>
-                <?php if ($this->ion_auth->in_group('13')) : ?>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-book"></i> CV
-                  </a>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-pencil-alt"></i> Penilaian
-                  </a>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-sign-out-alt"></i> IDT (?)
-                  </a>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-book-open"></i> Laporan Akhir
-                  </a>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="far fa-bookmark"></i> Sertifikat
-                  </a>
-                <?php endif; ?>
-                <?php if ($this->ion_auth->in_group('14')) : ?>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-pencil-alt"></i> Penilaian
-                  </a>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-book-open"></i> Laporan Akhir
-                  </a>
-                <?php endif; ?>
-                <div class="dropdown-divider"></div>
-                <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon text-danger">
-                  <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-              </div>
-            </li>
-          <?php else : ?>
-            <li class="nav-item active"><a href="<?php echo base_url('auth/login'); ?>" class="nav-link">Login / Register</a></li>
-          <?php endif; ?>
+              <div class="dropdown-divider"></div>
+              <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </div>
+          </li>
         </ul>
       </nav>
+      <div class="main-sidebar">
+        <aside id="sidebar-wrapper">
+          <div class="sidebar-brand">
+            <a href="index.html">GPP System</a>
+          </div>
+          <div class="sidebar-brand sidebar-brand-sm">
+            <a href="index.html">GPP</a>
+          </div>
+          <ul class="sidebar-menu">
+            <?php $menus = $this->layout->get_menu() ?>
+            <?php foreach ($menus as $menu) : ?>
+              <li class="menu-header"><?php echo $menu['label'] ?></li>
+              <?php if (is_array($menu['children'])) : ?>
+                <?php foreach ($menu['children'] as $menu2) : ?>
+                  <?php if ($title == $menu2['label']) : ?>
+                    <li <?php echo is_array($menu2['children']) ? ' class="nav-item active" ' : '' ?>>
+                    <?php else : ?>
+                    <li <?php echo is_array($menu2['children']) ? ' class="nav-item" ' : '' ?>>
+                    <?php endif ?>
+                    <?php if (is_array($menu2['children'])) : ?>
+                      <?php if ($title == $menu2['label']) : ?>
+                    <li class="dropdown active">
+                    <?php else : ?>
+                    <li class="nav-item dropdown">
+                    <?php endif ?>
 
-      <nav class="navbar navbar-secondary navbar-expand-lg">
-        <div class="container">
-          <ul class="navbar-nav">
-            <?php if ($this->ion_auth->logged_in()) : ?>
-              <?php $menus = $this->layout->get_menu() ?>
-              <?php foreach ($menus as $menu) : ?>
-                <?php if ($menu['id_menu'] != 121) : ?>
-                  <?php if (is_array($menu['children'])) : ?>
-                    <li class="nav-item <?php echo ($title == $menu['label']) ? "active" : "" ?> dropdown">
-                      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
-                        <i class="<?php echo $menu['icon'] ?>"></i>
-                        <span><?php echo $menu['label'] ?></span>
-                      </a>
-                      <ul class="dropdown-menu">
-                        <?php foreach ($menu['children'] as $menu2) : ?>
-                          <?php if (is_array($menu2['children'])) : ?>
-                            <li class="nav-item dropdown">
-                              <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
-                                <i class="<?php echo $menu2['icon'] ?>"></i>
-                                <span><?php echo $menu2['label'] ?></span>
-                              </a>
-                              <ul class="dropdown-menu">
-                                <?php foreach ($menu2['children'] as $menu3) : ?>
-                                  <?php if (is_array($menu3['children'])) : ?>
-                                    <li class="nav-item <?php echo ($title == $menu3['label']) ? "active" : "" ?> dropdown">
-                                      <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
-                                        <i class="<?php echo $menu3['icon'] ?>"></i>
-                                        <span><?php echo $menu3['label'] ?></span>
-                                      </a>
-                                      <ul class="dropdown-menu">
-                                        <?php foreach ($menu3['children'] as $menu4) : ?>
-                                          <li class="nav-item <?php echo ($title == $menu4['label']) ? "active" : "" ?>">
-                                            <a href="<?php echo $menu4['link'] != '#' ? base_url($menu4['link']) : '#' ?>" class="nav-link">
-                                              <i class="<?php echo $menu4['icon'] ?>"></i>
-                                              <span><?php echo $menu4['label'] ?></span>
-                                            </a>
-                                          </li>
-                                        <?php endforeach ?>
-                                      </ul>
-                                    </li>
-                                  <?php else : ?>
-                                    <li class="nav-item <?php echo ($title == $menu3['label']) ? "active" : "" ?>">
-                                      <a href="<?php echo $menu3['link'] != '#' ? base_url($menu3['link']) : '#' ?>" class="nav-link">
-                                        <i class="<?php echo $menu3['icon'] ?>"></i>
-                                        <span><?php echo $menu3['label'] ?></span>
-                                      </a>
-                                    </li>
-                                  <?php endif ?>
-                                <?php endforeach ?>
-                              </ul>
+                    <a href="<?php echo $menu2['link'] != '#' ? base_url($menu2['link']) : '#' ?>" class="nav-link has-dropdown" data-toggle="dropdown">
+                      <i class="<?php echo $menu2['icon'] ?>"></i> <span><?php echo $menu2['label'] ?></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <?php foreach ($menu2['children'] as $menu3) : ?>
+                        <?php if (is_array($menu3['children'])) : ?>
+                          <?php if ($title  and $subtitle == $menu3['label']) : ?>
+                            <li class="active">
+                            <?php else : ?>
+                            <li>
+                            <?php endif ?>
+                            <a href="<?php echo $menu3['link'] != '#' ? base_url($menu3['link']) : '#' ?>" class="nav-link">
+                              <i class="<?php echo $menu3['icon'] ?>"></i> <span><?php echo $menu3['label'] ?></span>
+                            </a>
                             </li>
                           <?php else : ?>
-                            <li class="nav-item <?php echo ($title == $menu2['label']) ? "active" : "" ?>">
-                              <a href="<?php echo $menu2['link'] != '#' ? base_url($menu2['link']) : '#' ?>" class="nav-link">
-                                <i class="<?php echo $menu2['icon'] ?>"></i>
-                                <span><?php echo $menu2['label'] ?></span>
+                            <?php if ($subtitle == $menu3['label']) : ?>
+                              <li class='active'>
+                              <?php else : ?>
+                              <li>
+                              <?php endif ?>
+                              <a href="<?php echo $menu3['link'] != '#' ? base_url($menu3['link']) : '#' ?>" class="nav-link">
+                                <i class="<?php echo $menu3['icon'] ?>"></i> <span><?php echo $menu3['label'] ?></span>
                               </a>
-                            </li>
-                          <?php endif ?>
-                        <?php endforeach ?>
-                      </ul>
+                              </li>
+                            <?php endif ?>
+                          <?php endforeach ?>
+                    </ul>
                     </li>
                   <?php else : ?>
-                    <li class="nav-item <?php echo ($title == $menu['label']) ? "active" : "" ?>">
-                      <a href="<?php echo $menu['link'] != '#' ? base_url($menu['link']) : '#' ?>" class="nav-link ">
-                        <i class="<?php echo $menu['icon'] ?>"></i>
-                        <span><?php echo $menu['label'] ?></span>
+                    <?php if ($title == $menu2['label']) : ?>
+                      <li class="active">
+                      <?php else : ?>
+                      <li>
+                      <?php endif ?>
+                      <a href="<?php echo $menu2['link'] != '#' ? base_url($menu2['link']) : '#' ?>" class="nav-link">
+                        <i class="<?php echo $menu2['icon'] ?>"></i> <span><?php echo $menu2['label'] ?>
                       </a>
-                    </li>
-                  <?php endif ?>
+                      </li>
+                    <?php endif ?>
+                  <?php endforeach ?>
                 <?php endif ?>
               <?php endforeach ?>
-            <?php endif; ?>
           </ul>
-        </div>
-      </nav>
+        </aside>
+      </div>
 
       <!-- Main Content -->
       <div class="main-content">
         <section class="section">
-          <?php if ($this->ion_auth->logged_in() && $title != "Home") : ?>
-            <div class="section-header">
-              <h1><?= $title; ?></h1>
-            </div>
-          <?php endif; ?>
+          <div class="section-header">
+            <h1><?= $title; ?></h1>
+          </div>
           <?php $this->load->view($page); ?>
         </section>
       </div>

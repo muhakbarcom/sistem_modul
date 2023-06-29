@@ -1,9 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-// $config['clockify_workspaces'] = "6214e496b2662559a8e610ba"; // old
-// $config['clockify_x_api_key'] = "YWNhYzUzOTYtYTk3Ni00Mzc4LTgzYTEtODJkMWU4YTIxYzc0";
-
 $config['clockify_workspaces'] = "63039b192b9d006b0578cd49"; // new
 $config['clockify_x_api_key'] = "NDVlYTUzMGQtY2QwMi00MWZhLWI2OWYtZTY4NDIyYTk3MTQx";
 
@@ -21,6 +18,7 @@ $config['clockify_base_url'] = "https://api.clockify.me/api/v1/workspaces/";
 $config['airtable_base_url'] = "https://api.airtable.com/v0/appX89Qdu7HGcSKir/";
 $config['jurnal_base_url'] = "https://api.jurnal.id/partner/core/api/v1/";
 
+$config['titleWeb'] = "IIS";
 
 $config['template'] = "stisla/";
 // $config['template'] = "";

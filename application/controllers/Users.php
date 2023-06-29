@@ -54,6 +54,18 @@ class Users extends CI_Controller
         $this->load->view($this->config->item('template') . 'template/backend', $data);
     }
 
+    function register()
+    {
+        $data['title'] = 'Register';
+        $data['subtitle'] = '';
+        $data['crumb'] = [
+            'Dashboard' => '',
+        ];
+
+        $data['page'] = $this->config->item('template') . 'users/users_list';
+        $this->load->view($this->config->item('template') . 'template/backend', $data);
+    }
+
     public function json()
     {
         header('Content-Type: application/json');

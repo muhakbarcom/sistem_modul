@@ -81,18 +81,41 @@ $setting_aplikasi = $this->db->get('setting')->row();
                                           <?php echo form_input($password_confirm); ?>
                                     </p>
 
+                                    <div class="form-group position-relative">
+                                          <div class="clearfix">
+                                                <label for="password">Register as:</label>
+                                          </div>
+                                          <div class="position-relative">
+                                                <select name="group" id="" class="form-control" required>
+                                                      <option value="" selected disabled>-- Select --</option>
+                                                      <option value="13">Mahasiswa</option>
+                                                      <option value="14">Mentor/Supervisor</option>
+                                                </select>
+                                          </div>
+                                    </div>
 
                                     <!-- <p><?php echo form_submit('submit', lang('create_user_submit_btn'), 'class="btn bg-blue"'); ?></p> -->
                                     <div class="clearfix">
-                                          <button class="btn btn-primary float-right" type="submit">Daftar</button>
+                                          <button class="btn btn-primary float-right" type="submit">Submit</button>
                                     </div>
                                     <?php echo form_close(); ?>
 
-                                    <div class="row"><a href="<?= base_url(); ?>">Kembali</a></div>
+                                    <div class="row mt-3">
+                                          <div class="col-sm-6">
+                                                <a href="<?= base_url(); ?>" class="btn btn-block mb-2 btn-warning">Back to Home</a>
+                                          </div>
+                                          <div class="col-sm-6">
+                                                <a href="<?= base_url('auth'); ?>" class="btn btn-block mb-2 btn-secondary"> Login</a>
+                                          </div>
+                                    </div>
                               </div>
+
                         </div>
+
                   </div>
+
             </div>
+
       </div>
 </div>
 

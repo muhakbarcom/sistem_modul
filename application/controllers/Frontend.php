@@ -7,9 +7,9 @@ class Frontend extends CI_Controller
 
   public function index()
   {
-    $data['page'] = 'frontend/index';
     $data['title'] = 'Home';
-    $this->load->view('template/frontend', $data);
+    $data['page'] = $this->config->item('template') . 'frontend/index';
+    $this->load->view($this->config->item('template') . 'template/backend', $data);
   }
 
   public function about()

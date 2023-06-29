@@ -117,6 +117,7 @@ class Layout
         foreach ($menus as $menu) {
             if ($parent_id == $menu['parent_id']) {
                 $new_menus[$menu['id_menu']] = [
+                    'id_menu' => $menu['id_menu'],
                     'label' => $menu['label'],
                     'icon' => $menu['icon'],
                     'link' => $menu['link'],

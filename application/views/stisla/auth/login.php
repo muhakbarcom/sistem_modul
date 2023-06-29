@@ -90,23 +90,22 @@ $setting_aplikasi = $this->db->get('setting')->row();
                 <button class="btn btn-primary float-right" type="submit">Login</button>
               </div>
               <?php echo form_close(); ?>
-              <!-- <div class="row"><a href="<?= base_url('auth/register_user'); ?>">Daftar Sekarang</a></div> -->
-              <!-- <div class="divider">
+              <div class="divider">
                 <div class="divider-text">OR</div>
               </div>
               <div class="row">
                 <div class="col-sm-6">
-                  <button class="btn btn-block mb-2 btn-primary"><i data-feather="facebook"></i> Facebook</button>
+                  <a href="<?= base_url(); ?>" class="btn btn-block mb-2 btn-warning">Back to Home</a>
                 </div>
                 <div class="col-sm-6">
-                  <button class="btn btn-block mb-2 btn-secondary"><i data-feather="github"></i> Github</button>
-                </div> -->
+                  <a href="<?= base_url('auth/register_user'); ?>" class="btn btn-block mb-2 btn-secondary"> Register</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
   </div>
   <script src="<?= base_url(); ?>assets/js/feather-icons/feather.min.js"></script>

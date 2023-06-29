@@ -81,7 +81,7 @@ $whitelist = array(
 if (in_array($_SERVER['REMOTE_ADDR'], $whitelist)) {
 	$u_db = 'root';
 	$p_db = '';
-	$n_db = 'gpp_system';
+	$n_db = 'iis_project';
 } else {
 	$u_db = '';
 	$p_db = '';
