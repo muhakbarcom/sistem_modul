@@ -16,7 +16,7 @@ class Groups extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'User';
+        $data['title'] = 'Manage Roles';
         $data['subtitle'] = 'Groups';
         $data['crumb'] = [
             'Dashboard' => '',
@@ -64,7 +64,7 @@ class Groups extends CI_Controller
             'name' => set_value('name'),
             'description' => set_value('description'),
         );
-        $data['title'] = 'Groups';
+        $data['title'] = 'Manage Roles';
         $data['subtitle'] = '';
         $data['crumb'] = [
             'Dashboard' => '',

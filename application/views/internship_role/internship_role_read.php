@@ -2,7 +2,7 @@
     <div class="col-xs-12 col-md-6">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Mahasiswa Detail</h3>
+                <h3 class="box-title">Internship Role Detail</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                     title="Collapse">
@@ -14,10 +14,10 @@
             <!-- /.box-header -->
             <div class="box-body">
         <table class="table">
-	    <tr><td>Npm</td><td><?php echo $npm; ?></td></tr>
-	    <tr><td>Nama</td><td><?php echo $nama; ?></td></tr>
-	    <tr><td>Tgl Lahir</td><td><?php echo $tgl_lahir; ?></td></tr>
-	    <tr><td><a href="<?php echo site_url('mahasiswa') ?>" class="btn bg-purple">Cancel</a></td></tr>
+	    <tr><td>Role Name</td><td><?php echo $role_name; ?></td></tr>
+	    <tr><td>Role Description</td><td><?php echo $role_description; ?></td></tr>
+	    <tr><td>Image</td><td><?php echo $image; ?></td></tr>
+	    <tr><td><a href="<?php echo site_url('internship_role') ?>" class="btn bg-purple">Cancel</a></td></tr>
 	</table>
             </div>
         </div>

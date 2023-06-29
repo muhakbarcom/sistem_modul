@@ -26,24 +26,24 @@
         </style>
 </head>
 <body>
-    <h3 align="center">DATA Mahasiswa</h3>
+    <h3 align="center">DATA Internship Role</h3>
     <h4>Tanggal Cetak : <?= date("d/M/Y");?> </h4>
     <table class="word-table" style="margin-bottom: 10px">
             <tr>
                 <th>No</th>
-		<th>Npm</th>
-		<th>Nama</th>
-		<th>Tgl Lahir</th>
+		<th>Role Name</th>
+		<th>Role Description</th>
+		<th>Image</th>
 		
             </tr><?php
-            foreach ($mahasiswa_data as $mahasiswa)
+            foreach ($internship_role_data as $internship_role)
             {
                 ?>
                 <tr>
 		      <td><?php echo ++$start ?></td>
-		      <td><?php echo $mahasiswa->npm ?></td>
-		      <td><?php echo $mahasiswa->nama ?></td>
-		      <td><?php echo $mahasiswa->tgl_lahir ?></td>	
+		      <td><?php echo $internship_role->role_name ?></td>
+		      <td><?php echo $internship_role->role_description ?></td>
+		      <td><?php echo $internship_role->image ?></td>	
                 </tr>
                 <?php
             }

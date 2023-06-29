@@ -289,10 +289,10 @@ $setting_aplikasi = $this->db->get('setting')->row();
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          <b>Developed by<a href="https://muhakbar.com"> Muhammad Akbar</b></a>
+          <!-- <b>Developed by<a href="https://muhakbar.com"> Muhammad Akbar</b></a> -->
         </div>
         <div class="footer-right">
-          <strong>Copyright &copy; <?= date('Y'); ?> <a href="https://muhakbar.com">GPP System v1.1</a>.</strong> All rights
+          <strong>Copyright &copy; <?= date('Y'); ?> <a href="https://muhakbar.com"></a><?= "{$setting_aplikasi->nama}"; ?></strong> All rights
           reserved.
         </div>
       </footer>

@@ -31,7 +31,7 @@ class Users extends CI_Controller
         foreach ($data['users'] as $k => $user) {
             $data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
         }
-        $data['title'] = 'User';
+        $data['title'] = 'Manage Users';
         $data['subtitle'] = 'Users';
         $data['crumb'] = [
             'Users' => '',
@@ -44,7 +44,7 @@ class Users extends CI_Controller
 
     public function index2()
     {
-        $data['title'] = 'User';
+        $data['title'] = 'Manage Users';
         $data['subtitle'] = '';
         $data['crumb'] = [
             'Dashboard' => '',
@@ -86,7 +86,7 @@ class Users extends CI_Controller
                 'phone' => $row->phone,
                 'image' => $row->image,
             );
-            $data['title'] = 'Users';
+            $data['title'] = 'Manage Users';
             $data['subtitle'] = '';
             $data['crumb'] = [
                 'Dashboard' => '',
@@ -123,7 +123,7 @@ class Users extends CI_Controller
             'company' => set_value('company'),
             'phone' => set_value('phone'),
         );
-        $data['title'] = 'Users';
+        $data['title'] = 'Manage Users';
         $data['subtitle'] = '';
         $data['crumb'] = [
             'Dashboard' => '',
@@ -191,7 +191,7 @@ class Users extends CI_Controller
                 'company' => set_value('company', $row->company),
                 'phone' => set_value('phone', $row->phone),
             );
-            $data['title'] = 'Users';
+            $data['title'] = 'Manage Users';
             $data['subtitle'] = '';
             $data['crumb'] = [
                 'Dashboard' => '',

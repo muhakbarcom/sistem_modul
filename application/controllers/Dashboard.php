@@ -20,20 +20,6 @@ class Dashboard extends CI_Controller
 		];
 
 		$date = date('Y-m');
-		$data['lineChart_revenue'] = $this->get_lineChart_revenue();
-		$data['lineChartProject_revenue'] = $this->get_lineChartProject_revenue();
-		$data['lineChartProject_projectName'] = $this->get_lineChartProject_projectName();
-		$data['lineChart_total_cost'] = $this->get_lineChart_total_cost();
-		$data['lineChart_kumulatif'] = $this->get_lineChart_kumulatif();
-		$bulan = $this->get_lineChart_month();
-		$data['lineChart_month'] = substr($bulan->date, 0, 4);
-		$data['lineChart_day'] = substr($bulan->date, 5, 6);
-		$data['revenue'] = $this->get_revenue($date);
-		$data['direct_cost'] = $this->get_direct_cost($date);
-		$data['general_cost'] = $this->get_general_cost($date);
-		$data['overhead_cost'] = $this->get_overhead_cost($date);
-		$data['top5'] = $this->get_top5($date);
-		$data['bottom5'] = $this->get_bottom5($date);
 
 		$data['page'] = $this->config->item('template') . 'dashboard/Index';
 		$this->load->view($this->config->item('template') . 'template/backend', $data);

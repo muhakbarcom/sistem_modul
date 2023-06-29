@@ -369,7 +369,7 @@ class Auth extends CI_Controller
 			// insert csrf check
 			$this->data['csrf'] = $this->_get_csrf_nonce();
 			$this->data['user'] = $this->ion_auth->user($id)->row();
-			$this->data['title'] = 'User';
+			$data['title'] = 'Manage Users';
 			$this->data['subtitle'] = '';
 			$this->data['crumb'] = [
 				'User' => '',
@@ -405,7 +405,7 @@ class Auth extends CI_Controller
 
 	public function create_user()
 	{
-		$this->data['title'] = $this->lang->line('create_user_heading');
+		$this->data['title'] = "Manage Users";
 
 		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
 			redirect('auth', 'refresh');
@@ -513,7 +513,7 @@ class Auth extends CI_Controller
 				'value' => $this->form_validation->set_value('password_confirm'),
 				'class' => 'form-control'
 			);
-			$this->data['title'] = 'User';
+			$data['title'] = 'Manage Users';
 			$this->data['subtitle'] = '';
 			$this->data['crumb'] = [
 				'User' => '',
@@ -545,7 +545,7 @@ class Auth extends CI_Controller
 	 */
 	public function edit_user($id)
 	{
-		$this->data['title'] = $this->lang->line('edit_user_heading');
+		$this->data['title'] = "Manage Users";
 
 		if (!$this->ion_auth->logged_in() || (!$this->ion_auth->is_admin() && !($this->ion_auth->user()->row()->id == $id))) {
 			redirect('auth', 'refresh');
@@ -670,7 +670,7 @@ class Auth extends CI_Controller
 			'type' => 'password',
 			'class' => 'form-control'
 		);
-		$this->data['title'] = 'User';
+		$data['title'] = 'Manage Users';
 		$this->data['subtitle'] = '';
 		$this->data['crumb'] = [
 			'User' => '',
