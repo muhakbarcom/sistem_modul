@@ -5,7 +5,7 @@
 <script>
     $(document).ready(function() {
         $.ajax({
-            url: "<?php echo base_url(); ?>index.php/internship_program/getAll",
+            url: "<?php echo base_url(); ?>index.php/internship_program/getAllByIdUser",
             method: "GET",
             async: false,
             dataType: 'json',
@@ -29,16 +29,10 @@
                         }
                     });
                     var button = '';
-
-                    if (isRegistered) {
-                        button = `<button disabled class="btn btn-primary">Anda Telah Terdaftar</button>
-                        <br>
-                        <a target="_BLANK" href="<?= base_url('internship_saya/registration/'); ?>${id_program}"><small>Lihat Status Pendaftaran</small></a>
+                    button = `
+                        <a class="btn btn-primary" target="_BLANK" href="<?= base_url('internship_saya/detail/'); ?>${id_program}">Lihat Status Pendaftaran</a>
                         `;
-                    } else {
-                        button = `
-                        <button class="btn btn-primary" onclick="register(${id_program})">Daftar</button>`;
-                    }
+
 
                     html += `
                     <div class="row">

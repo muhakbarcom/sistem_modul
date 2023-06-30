@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 30, 2023 at 11:19 AM
+-- Generation Time: Jun 30, 2023 at 11:54 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -64,12 +64,6 @@ INSERT INTO `groups_menu` (`id_groups`, `id_menu`) VALUES
 (1, 112),
 (1, 113),
 (1, 114),
-(1, 3),
-(8, 3),
-(9, 3),
-(10, 3),
-(11, 3),
-(12, 3),
 (1, 116),
 (12, 116),
 (1, 119),
@@ -102,7 +96,10 @@ INSERT INTO `groups_menu` (`id_groups`, `id_menu`) VALUES
 (13, 130),
 (1, 133),
 (1, 134),
-(1, 136);
+(1, 136),
+(1, 3),
+(13, 3),
+(14, 3);
 
 -- --------------------------------------------------------
 
@@ -123,7 +120,8 @@ CREATE TABLE `internship_program` (
 --
 
 INSERT INTO `internship_program` (`id_program`, `program_name`, `program_desc`, `program_start`, `program_end`) VALUES
-(10, 'Coba', 'salkdm', '2023-06-16', '2023-06-30');
+(10, 'Coba', 'salkdm', '2023-06-16', '2023-06-30'),
+(11, 'Program 2', 'xxx', '2023-06-01', '2023-06-23');
 
 -- --------------------------------------------------------
 
@@ -134,10 +132,17 @@ INSERT INTO `internship_program` (`id_program`, `program_name`, `program_desc`, 
 CREATE TABLE `internship_program_mahasiswa` (
   `id` int(11) NOT NULL,
   `id_program` int(11) NOT NULL,
-  `id_role` int(11) NOT NULL,
+  `id_role` int(11) DEFAULT NULL,
   `id_user` int(11) NOT NULL,
   `created_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `internship_program_mahasiswa`
+--
+
+INSERT INTO `internship_program_mahasiswa` (`id`, `id_program`, `id_role`, `id_user`, `created_at`) VALUES
+(1, 10, NULL, 24, '2023-06-30 16:23:28');
 
 -- --------------------------------------------------------
 
@@ -169,7 +174,8 @@ CREATE TABLE `internship_program_role` (
 
 INSERT INTO `internship_program_role` (`id`, `id_i_program`, `id_i_role`) VALUES
 (12, 10, 10),
-(13, 10, 8);
+(13, 10, 8),
+(14, 11, 11);
 
 -- --------------------------------------------------------
 
@@ -445,13 +451,13 @@ ALTER TABLE `users_groups`
 -- AUTO_INCREMENT for table `internship_program`
 --
 ALTER TABLE `internship_program`
-  MODIFY `id_program` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_program` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `internship_program_mahasiswa`
 --
 ALTER TABLE `internship_program_mahasiswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `internship_program_mentor`
@@ -463,7 +469,7 @@ ALTER TABLE `internship_program_mentor`
 -- AUTO_INCREMENT for table `internship_program_role`
 --
 ALTER TABLE `internship_program_role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `internship_role`

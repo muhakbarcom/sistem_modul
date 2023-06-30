@@ -29,20 +29,30 @@ class Internship_program_model extends CI_Model
     // get all
     function get_all()
     {
-        $this->db->order_by($this->id, $this->order);
+        $this->db->order_by("program_start", $this->order);
         return $this->db->get($this->table)->result();
     }
 
-    function register()
+    function getAllByIdUser($id_user)
+    {
+        $this->db->from('internship_program p');
+        $this->db->join('internship_program_mahasiswa m', 'p.id_program = m.id_program', 'inner');
+        $this->db->where('m.id_user', $id_user);
+        $this->db->order_by("p.program_start", $this->order);
+        return $this->db->get()->result();
+    }
+
+    function register($id_program, $user)
     {
         $data = array(
-            'id_program' => $this->input->post('id_program', TRUE),
-            'id_user' => $this->input->post('id_user', TRUE),
-            'id_role' => $this->input->post('id_role', TRUE),
+            'id_program' => $id_program,
+            'id_user' => $user,
+            // 'id_role' => $this->input->post('id_role', TRUE),
             'created_at' => date('Y-m-d H:i:s'),
         );
 
         $this->db->insert('internship_program_mahasiswa', $data);
+        return $this->db->insert_id();
     }
 
     function isRegistered($id_program, $id_user)

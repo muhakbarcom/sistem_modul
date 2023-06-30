@@ -72,12 +72,28 @@ class Internship_program extends CI_Controller
         echo json_encode($data);
     }
 
+    public function getAllByIdUser()
+    {
+        $user = $this->ion_auth->user()->row()->id;
+        $data = $this->Internship_program_model->getAllByIdUser($user);
+        echo json_encode($data);
+    }
+
     public function isRegistered()
     {
         $id_program = $this->input->post('id_program', TRUE);
         $user = $this->ion_auth->user()->row()->id;
         $data = $this->Internship_program_model->isRegistered($id_program, $user);
-        echo json_encode($data);
+        $status = false;
+        if ($data > 0) {
+            $status = true;
+        }
+        $response = array(
+            'status' => $status,
+            'id_user' => $user,
+            'id_program' => $id_program,
+        );
+        echo json_encode($response);
     }
 
     public function register()
@@ -85,7 +101,14 @@ class Internship_program extends CI_Controller
         $id_program = $this->input->post('id_program', TRUE);
         $user = $this->ion_auth->user()->row()->id;
         $data = $this->Internship_program_model->register($id_program, $user);
-        echo json_encode($data);
+        $status = false;
+        if ($data != null) {
+            $status = true;
+        }
+        $response = array(
+            'status' => $status,
+        );
+        echo json_encode($response);
     }
 
 
