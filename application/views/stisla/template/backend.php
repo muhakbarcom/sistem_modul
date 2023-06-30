@@ -24,7 +24,7 @@ $setting_aplikasi = $this->db->get('setting')->row();
 
   <!-- <link rel="stylesheet" href="<?php echo base_url(); ?>stisla_assets/modules/bootstrap-daterangepicker/daterangepicker.css"> -->
   <!-- <link rel="stylesheet" href="<?php echo base_url(); ?>stisla_assets/modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css"> -->
-  <!-- <link rel="stylesheet" href="<?php echo base_url(); ?>stisla_assets/modules/select2/dist/css/select2.min.css"> -->
+  <link rel="stylesheet" href="<?php echo base_url(); ?>stisla_assets/modules/select2/dist/css/select2.min.css">
   <!-- <link rel="stylesheet" href="<?php echo base_url(); ?>stisla_assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css"> -->
   <!-- <link rel="stylesheet" href="<?php echo base_url(); ?>stisla_assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css"> -->
 
@@ -49,9 +49,9 @@ $setting_aplikasi = $this->db->get('setting')->row();
   <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 
   <script src="<?= base_url(); ?>assets/plugins/alertify/alertify.js"></script>
-
+  <script src="<?php echo base_url(); ?>stisla_assets/modules/select2/dist/js/select2.min.js""></script>
   <!-- datatables -->
-  <!-- <script src="<?php echo base_url(); ?>stisla_assets/modules/datatables/datatables.min.js"></script> -->
+  <!-- <script src=" <?php echo base_url(); ?>stisla_assets/modules/datatables/datatables.min.js"></script> -->
   <!-- <script src="<?php echo base_url(); ?>stisla_assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script> -->
 
   <!-- CSS Datepicker -->
@@ -80,11 +80,9 @@ $setting_aplikasi = $this->db->get('setting')->row();
             <i class="fas fa-ellipsis-v"></i>
           </a>
           <ul class="navbar-nav">
-            <?php if (!$this->ion_auth->logged_in()) : ?>
-              <!-- <li class="nav-item active"><a href="#" class="nav-link">Application</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Report Something</a></li>
-              <li class="nav-item"><a href="#" class="nav-link">Server Status</a></li> -->
-            <?php endif; ?>
+            <li class="nav-item active"><a href="<?= base_url(); ?>" class="nav-link">Home</a></li>
+            <li class="nav-item"><a href="<?= base_url('internship_role'); ?>" class="nav-link">Internship Role</a></li>
+            <li class="nav-item"><a href="<?= base_url('program'); ?>" class="nav-link">Program</a></li>
           </ul>
         </div>
         <form class="form-inline ml-auto">
@@ -287,16 +285,75 @@ $setting_aplikasi = $this->db->get('setting')->row();
           <?php $this->load->view($page); ?>
         </section>
       </div>
-      <footer class="main-footer">
-        <div class="footer-left">
-          <!-- <b>Developed by<a href="https://muhakbar.com"> Muhammad Akbar</b></a> -->
-        </div>
-        <div class="footer-right">
-          <strong>Copyright &copy; <?= date('Y'); ?> <a href="https://muhakbar.com"></a><?= "{$setting_aplikasi->nama}"; ?></strong> All rights
-          reserved.
-        </div>
-      </footer>
+
     </div>
+    <footer class="main-footer bg-dark">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-12">
+                <b>Telkom Direktorat Digital Business Bandung</b>
+              </div>
+              <div class="col-12">
+                Jl. Gegerkalong Hilir No.47
+                Kota Bandung, Jawa Barat 40152
+                (022) 4571050
+              </div>
+              <div class="col-12 mt-3">
+                <b>Telkom Direktorat Digital Business Jakarta</b>
+              </div>
+              <div class="col-12">
+                Menara Multimedia lt 15
+                Jl. Kebon Sirih No.12 Jakarta Pusat 10110
+                (022) 3860500
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-12">
+                <b>Follow Our Social Media</b>
+              </div>
+              <div class="col-12">
+                <a target="_BLANK" href="https://instagram.com/internship_ddbtelkom?igshid=1fabxbyc1nbhj">internship_ddbtelkom</a>
+              </div>
+              <div class="col-12">
+                <a target="_BLANK" href="https://m.youtube.com/channel/UCWkKD0cXXqG7spiJztMgDZg">Internship DDB Telkom</a>
+              </div>
+              <div class="col-12">
+                <a target="_BLANK" href="https://wa.me/6281120000981?text=Halo+KakMin,+Saya+mau+bertanya+tentang+Digistar+Internship+DDB+Telkom">+6281120000981</a>
+              </div>
+              <div class="col-12">
+                <a target="_BLANK" href="@mailto:internship.ddbtelkom@telkom.co.id">internship.ddbtelkom@telkom.co.id</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <div class="col-12">
+                <b>Supported by</b>
+              </div>
+              <div class="col-12">
+                <img src="<?= base_url('assets/img/footer/bumn.png'); ?>" alt="">
+              </div>
+              <div class="col-12">
+                <img src="<?= base_url('assets/img/footer/telkom.png'); ?>" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-12">
+            <div class="text-center ">
+              <strong>Copyright &copy; <?= date('Y'); ?> <a href="https://muhakbar.com"></a><?= "{$setting_aplikasi->nama}"; ?></strong> All rights reserved.
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
   </div>
 
   <!-- General JS Scripts -->

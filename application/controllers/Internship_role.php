@@ -9,8 +9,8 @@ class Internship_role extends CI_Controller
     {
         parent::__construct();
         $c_url = $this->router->fetch_class();
-        $this->layout->auth();
-        $this->layout->auth_privilege($c_url);
+        // $this->layout->auth();
+        // $this->layout->auth_privilege($c_url);
         $this->load->model('Internship_role_model');
         $this->load->library('form_validation');
         $this->load->library('datatables');

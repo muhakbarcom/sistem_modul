@@ -14,6 +14,7 @@ $setting_aplikasi = $this->db->get('setting')->row();
       <link rel="stylesheet" href="<?= base_url(); ?>/assets/css/app.css">
       <!-- akbr custom -->
       <link rel="stylesheet" href="<?= base_url(); ?>assets/css/akbr_custom.css">
+      <script src="<?php echo base_url(); ?>stisla_assets/modules/jquery.min.js"></script>
 </head>
 <div id="auth">
 
@@ -86,11 +87,45 @@ $setting_aplikasi = $this->db->get('setting')->row();
                                                 <label for="password">Register as:</label>
                                           </div>
                                           <div class="position-relative">
-                                                <select name="group" id="" class="form-control" required>
+                                                <select name="group" id="group" onchange="onChangeGroup(this)" class="form-control" required>
                                                       <option value="" selected disabled>-- Select --</option>
                                                       <option value="13">Mahasiswa</option>
                                                       <option value="14">Mentor/Supervisor</option>
                                                 </select>
+                                          </div>
+                                    </div>
+                                    <div id="data-mahasiswa" class="d-none">
+                                          <div class="form-group position-relative">
+                                                <div class="clearfix">
+                                                      <label for="NIM">NIM</label>
+                                                </div>
+                                                <div class="position-relative">
+                                                      <input type="number" name="nim" id="nim" class="form-control">
+                                                </div>
+                                          </div>
+                                          <div class="form-group position-relative">
+                                                <div class="clearfix">
+                                                      <label for="no_hp">NO HP</label>
+                                                </div>
+                                                <div class="position-relative">
+                                                      <input type="number" name="no_hp" id="no_hp" class="form-control">
+                                                </div>
+                                          </div>
+                                          <div class="form-group position-relative">
+                                                <div class="clearfix">
+                                                      <label for="perguruan_tinggi">Perguruan Tinggi</label>
+                                                </div>
+                                                <div class="position-relative">
+                                                      <input type="text" name="perguruan_tinggi" id="perguruan_tinggi" class="form-control">
+                                                </div>
+                                          </div>
+                                          <div class="form-group position-relative">
+                                                <div class="clearfix">
+                                                      <label for="jurusan">Jurusan</label>
+                                                </div>
+                                                <div class="position-relative">
+                                                      <input type="text" name="jurusan" id="jurusan" class="form-control">
+                                                </div>
                                           </div>
                                     </div>
 
@@ -145,6 +180,19 @@ $setting_aplikasi = $this->db->get('setting')->row();
                   'error'
             )
       <?php } ?>
+
+      function onChangeGroup(data) {
+            let value = data.value;
+            const form_mhs = $('#data-mahasiswa');
+
+            if (value == 13) {
+                  form_mhs.removeClass('d-none');
+                  $('nim, no_hp, perguruan_tinggi, jurusan').attr('required', true);
+            } else {
+                  form_mhs.addClass('d-none');
+                  $('nim, no_hp, perguruan_tinggi, jurusan').attr('required', false);
+            }
+      }
 </script>
 </body>
 

@@ -865,6 +865,10 @@ class Auth extends CI_Controller
 			$additional_data = array(
 				'first_name' => $this->input->post('first_name'),
 				'last_name' => $this->input->post('last_name'),
+				'phone' => $this->input->post('no_hp'),
+				'nim' => $this->input->post('nim'),
+				'jurusan' => $this->input->post('jurusan'),
+				'perguruan_tinggi' => $this->input->post('perguruan_tinggi'),
 			);
 			$group = $this->input->post('group');
 			$groups = array($group); // Sets user to admin.

@@ -55,6 +55,7 @@
                     <div class="row">
                         <img src="<?= base_url('assets/uploads/image/internship_role/'); ?>${data_internship[i].image}" class="img-thumbnail">
                         <p>${truncatedDescription} ${readMoreButton}</p>
+                        <a href="<?= base_url('program'); ?>" class="btn btn-primary">Daftar</a>
                     </div>
                 </div>
             </div>
