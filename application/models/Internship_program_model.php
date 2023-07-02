@@ -33,11 +33,14 @@ class Internship_program_model extends CI_Model
         return $this->db->get($this->table)->result();
     }
 
-    function getAllByIdUser($id_user)
+    function getAllByIdUser($id_user, $id_program = null)
     {
         $this->db->from('internship_program p');
         $this->db->join('internship_program_mahasiswa m', 'p.id_program = m.id_program', 'inner');
         $this->db->where('m.id_user', $id_user);
+        if ($id_program != null) {
+            $this->db->where('p.id_program', $id_program);
+        }
         $this->db->order_by("p.program_start", $this->order);
         return $this->db->get()->result();
     }
@@ -53,6 +56,82 @@ class Internship_program_model extends CI_Model
 
         $this->db->insert('internship_program_mahasiswa', $data);
         return $this->db->insert_id();
+    }
+
+    function insertStepRegister($data) // step 1 pendaftaran
+    {
+        $dataDetail = array(
+            'id_program_mahasiswa' => $data['id'],
+            'step' => $data['step'],
+            'created_at' => date('Y-m-d H:i:s'),
+            'status' => $data['status']
+        );
+        $this->db->insert('internship_program_mahasiswa_detail', $dataDetail);
+        $id = $this->db->insert_id();
+
+        if ($id) {
+            // update id_role and step to internship_program_mahasiswa
+            $this->db->where('id', $data["id"]);
+            $this->db->update('internship_program_mahasiswa', array('id_role' => $data['id_role'], 'step' => $data['step']));
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function insertStepAdministration($data)
+    {
+        $dataDetail = array(
+            'id_program_mahasiswa' => $data['id'],
+            'step' => $data['step'],
+            'created_at' => date('Y-m-d H:i:s'),
+            'status' => $data['status']
+        );
+        $this->db->insert('internship_program_mahasiswa_detail', $dataDetail);
+        $id = $this->db->insert_id();
+
+        if ($id) {
+            $this->db->where('id', $data["id"]);
+            $this->db->update('internship_program_mahasiswa', array('cv' => $data['cv'], 'step' => $data['step']));
+
+            if ($this->db->affected_rows() > 0) {
+                return true; // Update berhasil
+            } else {
+                return false; // Update gagal
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function insertStepInterview($data)
+    {
+        $dataDetail = array(
+            'id_program_mahasiswa' => $data['id'],
+            'step' => $data['step'],
+            'created_at' => date('Y-m-d H:i:s'),
+            'status' => $data['status']
+        );
+        $this->db->insert('internship_program_mahasiswa_detail', $dataDetail);
+        $id = $this->db->insert_id();
+
+        if ($id) {
+            $this->db->where('id', $data["id"]);
+            $this->db->update('internship_program_mahasiswa', array('link_interview' => $data['link_interview'], 'step' => $data['step']));
+
+            if ($this->db->affected_rows() > 0) {
+                return true; // Update berhasil
+            } else {
+                return false; // Update gagal
+            }
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function isRegistered($id_program, $id_user)

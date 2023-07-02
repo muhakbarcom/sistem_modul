@@ -85,7 +85,15 @@
     }
 
     function register(id) {
-        // sweet alert
+        var isLoggedIn = "<?= $isLoggedIn; ?>";
+        if (!isLoggedIn) {
+            Swal.fire(
+                'Gagal!',
+                'Anda harus login terlebih dahulu.',
+                'error'
+            );
+            return;
+        }
         Swal.fire({
             title: 'Apakah anda yakin?',
             text: "Anda akan mendaftar program ini!",

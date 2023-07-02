@@ -51,6 +51,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 */
 $route['default_controller'] = 'frontend';
 $route['404_override'] = 'notfound';
+$route['invalidProject'] = 'invalidProject';
 $route['translate_uri_dashes'] = FALSE;
 //$route['pilar/(:any)'] = 'pilar/index/$1';
 $route['login'] = 'auth/login';

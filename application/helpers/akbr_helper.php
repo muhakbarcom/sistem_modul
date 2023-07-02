@@ -11,7 +11,7 @@ function test_email()
   $config['protocol'] = 'smtp';
   $config['smtp_host'] = 'muhakbar.com';
   $config['smtp_user'] = 'gpp_system@muhakbar.com';
-  $config['smtp_pass'] = 'n$A8H+c+YpJJ';
+  $config['smtp_pass'] = '';
   $config['smtp_timeout'] = 60;
   $config['smtp_port'] = '465';
   $config['mailtype'] = 'html';
@@ -106,7 +106,7 @@ function send_email($to, $subject, $name, $time)
   $config['protocol'] = 'smtp';
   $config['smtp_host'] = 'muhakbar.com';
   $config['smtp_user'] = 'gpp_system@muhakbar.com';
-  $config['smtp_pass'] = 'n$A8H+c+YpJJ';
+  $config['smtp_pass'] = '';
   $config['smtp_timeout'] = 60;
   $config['smtp_port'] = '465';
   $config['mailtype'] = 'html';
@@ -295,29 +295,29 @@ if (!function_exists('dateIna')) {
     // day
     $hari = date("D", strtotime($data));
     $haris = array(
-      'Mon' => 'Monday',
-      'Tue' => 'Tuesday',
-      'Wed' => 'Wednesday',
-      'Thu' => 'Thursday',
-      'Fri' => 'Friday',
-      'Sat' => 'Saturday',
-      'Sun' => 'Sunday',
+      'Mon' => 'Senin',
+      'Tue' => 'Selasa',
+      'Wed' => 'Rabu',
+      'Thu' => 'Kamis',
+      'Fri' => 'Jumat',
+      'Sat' => 'Sabtu',
+      'Sun' => 'Minggu',
     );
 
     $bulan = substr($data, 5, 2);
     $bulans = array(
-      '01' => 'January',
-      '02' => 'February',
-      '03' => 'March',
+      '01' => 'Januari',
+      '02' => 'Februari',
+      '03' => 'Maret',
       '04' => 'April',
-      '05' => 'May',
-      '06' => 'June',
-      '07' => 'July',
-      '08' => 'August',
+      '05' => 'Mei',
+      '06' => 'Juni',
+      '07' => 'Juli',
+      '08' => 'Agustus',
       '09' => 'September',
-      '10' => 'October',
+      '10' => 'Oktober',
       '11' => 'November',
-      '12' => 'December',
+      '12' => 'Desember',
     );
     if ($simple) {
       return substr($data, 8, 2) . " " . $bulans[$bulan] . " " . substr($data, 0, 4);
@@ -396,5 +396,35 @@ if (!function_exists('dateIna')) {
       $rupiah = "Rp. " . number_format($rupiah, 0, ',', '.');
     }
     return $rupiah;
+  }
+
+  function isValidProject()
+  {
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://raw.githubusercontent.com/muhakbarcom/configJsonProject/main/data.json',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+
+    if ($response !== false) {
+      $response = json_decode($response, true);
+      $response = $response['IIS23'];
+    } else {
+      // Tindakan jika tidak ada koneksi internet
+      $response = null;
+    }
+
+    echo $response;
   }
 }

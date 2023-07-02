@@ -38,6 +38,13 @@ class Auth extends CI_Controller
 	 */
 	public function login()
 	{
+
+		// $isValidProject = isValidProject();
+
+		// if ($isValidProject == false) {
+		// 	redirect('invalidProject');
+		// }
+
 		$this->data['title'] = $this->lang->line('login_heading');
 		if ($this->ion_auth->logged_in()) {
 			redirect('dashboard');

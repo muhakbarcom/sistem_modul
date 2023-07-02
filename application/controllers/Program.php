@@ -9,8 +9,8 @@ class Program extends CI_Controller
     {
         parent::__construct();
         $c_url = $this->router->fetch_class();
-        $this->layout->auth();
-        $this->layout->auth_privilege($c_url);
+        // $this->layout->auth();
+        // $this->layout->auth_privilege($c_url);
         $this->load->model('Internship_program_model');
     }
 
@@ -18,6 +18,8 @@ class Program extends CI_Controller
     {
         $data['title'] = 'Internship Program';
         $data['subtitle'] = '';
+        $data['isLoggedIn'] = $this->ion_auth->logged_in();
+
         $data['crumb'] = [
             'Internship Program' => '',
         ];

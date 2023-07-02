@@ -13,7 +13,8 @@ $setting_aplikasi = $this->db->get('setting')->row();
   <!-- General CSS Files -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>stisla_assets/modules/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>stisla_assets/modules/fontawesome/css/all.min.css">
-
+  <!-- CSS Libraries -->
+  <link rel="stylesheet" href="<?php echo base_url(); ?>stisla_assets//modules/izitoast/css/iziToast.min.css">
   <!-- <link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.2.0/css/rowGroup.bootstrap4.min.css"> -->
 
   <link rel="stylesheet" href="<?php echo base_url(); ?>stisla_assets/modules/jqvmap/dist/jqvmap.min.css">
@@ -82,7 +83,7 @@ $setting_aplikasi = $this->db->get('setting')->row();
           <ul class="navbar-nav">
             <li class="nav-item active"><a href="<?= base_url(); ?>" class="nav-link">Home</a></li>
             <li class="nav-item"><a href="<?= base_url('internship_role'); ?>" class="nav-link">Internship Role</a></li>
-            <li class="nav-item"><a href="<?= base_url('program'); ?>" class="nav-link">Program</a></li>
+            <li class="nav-item"><a href="<?= base_url('program'); ?>" class="nav-link">Internship Program</a></li>
           </ul>
         </div>
         <form class="form-inline ml-auto">
@@ -197,10 +198,10 @@ $setting_aplikasi = $this->db->get('setting')->row();
         </ul>
       </nav>
 
-      <nav class="navbar navbar-secondary navbar-expand-lg">
-        <div class="container">
-          <ul class="navbar-nav">
-            <?php if ($this->ion_auth->logged_in()) : ?>
+      <?php if ($this->ion_auth->logged_in()) : ?>
+        <nav class="navbar navbar-secondary navbar-expand-lg">
+          <div class="container">
+            <ul class="navbar-nav">
               <?php $menus = $this->layout->get_menu() ?>
               <?php foreach ($menus as $menu) : ?>
                 <?php if ($menu['id_menu'] != 121) : ?>
@@ -269,19 +270,19 @@ $setting_aplikasi = $this->db->get('setting')->row();
                   <?php endif ?>
                 <?php endif ?>
               <?php endforeach ?>
-            <?php endif; ?>
-          </ul>
-        </div>
-      </nav>
+            </ul>
+          </div>
+        </nav>
+      <?php endif; ?>
 
       <!-- Main Content -->
       <div class="main-content">
         <section class="section">
-          <?php if ($this->ion_auth->logged_in() && $title != "Home") : ?>
+          <!-- <?php if ($this->ion_auth->logged_in() && $title != "Home") : ?>
             <div class="section-header">
               <h1><?= $title; ?></h1>
             </div>
-          <?php endif; ?>
+          <?php endif; ?> -->
           <?php $this->load->view($page); ?>
         </section>
       </div>
@@ -376,7 +377,8 @@ $setting_aplikasi = $this->db->get('setting')->row();
   <script src="<?php echo base_url(); ?>stisla_assets/modules/bootstrap-daterangepicker/daterangepicker.js"></script>
   <script src="<?php echo base_url(); ?>stisla_assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
 
-
+  <script src="<?php echo base_url(); ?>stisla_assets/modules/izitoast/js/iziToast.min.js"></script>
+  <script src="<?php echo base_url(); ?>stisla_assets/js/page/modules-toastr.js"></script>
 
 
   <!-- Page Specific JS File -->
