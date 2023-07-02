@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 02, 2023 at 08:47 AM
+-- Generation Time: Jul 02, 2023 at 05:21 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -232,6 +232,24 @@ INSERT INTO `internship_role` (`id_internship_role`, `role_name`, `role_descript
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `laporan_harian`
+--
+
+CREATE TABLE `laporan_harian` (
+  `id` int(11) NOT NULL,
+  `id_program_mahasiswa` int(11) NOT NULL,
+  `jam_mulai` time NOT NULL,
+  `jam_selesai` time NOT NULL,
+  `tanggal` date NOT NULL,
+  `aktivitas` text NOT NULL,
+  `status_kehadiran` int(11) NOT NULL DEFAULT 1,
+  `alasan_kehadiran` varchar(100) DEFAULT NULL,
+  `keterangan_kehadiran` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menu`
 --
 
@@ -437,6 +455,12 @@ ALTER TABLE `internship_role`
   ADD PRIMARY KEY (`id_internship_role`);
 
 --
+-- Indexes for table `laporan_harian`
+--
+ALTER TABLE `laporan_harian`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `menu`
 --
 ALTER TABLE `menu`
@@ -514,6 +538,12 @@ ALTER TABLE `internship_program_role`
 --
 ALTER TABLE `internship_role`
   MODIFY `id_internship_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `laporan_harian`
+--
+ALTER TABLE `laporan_harian`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `menu`

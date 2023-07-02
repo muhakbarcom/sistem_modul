@@ -221,6 +221,13 @@ class Internship_program_model extends CI_Model
         $this->db->where_in($this->id, $arr_id);
         return $this->db->delete($this->table);
     }
+
+    function getLaporanHarian($id)
+    {
+        $this->db->from('laporan_harian');
+        $this->db->where('id_program_mahasiswa', $id);
+        return $this->db->get()->result();
+    }
 }
 
 /* End of file Internship_program_model.php */

@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col-4">
-        <div class="card">
+    <div class="col-12">
+        <div class="card shadow">
             <div class="card-body">
                 <div class="row">
                     <div class="col-12">
@@ -10,8 +10,8 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <h4>Minggu ke-<?= $mingguKe; ?></h4>
-                        <?= tanggal_surat($weekStart); ?> - <?= tanggal_surat($weekEnd); ?>
+                        <h4>Minggu ke-<?= $mingguKe; ?> (<?= tanggal_laporan_internship($weekStart); ?> - <?= tanggal_laporan_internship($weekEnd); ?>)</h4>
+                        Kamu menyelesaikan semua laporan harian untuk dapat mengisi laporan mingguan.
                     </div>
                 </div>
 
@@ -53,83 +53,56 @@
     </div>
 </div>
 
+<section class="mt-2" id="laporan-harian">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="activities">
+
+            </div>
+        </div>
+    </div>
+</section>
 
 <script>
-    var programData = <?php echo json_encode($dataProgram); ?>;
+    var weekStart = '<?= $weekStart; ?>';
+    var weekEnd = '<?= $weekEnd; ?>';
+    var mingguKe = '<?= $mingguKe; ?>';
+    var id_program = '<?= $id_program; ?>';
+
     var data_internship;
     var baseUrl = '<?php echo base_url(); ?>';
 
     $(document).ready(function() {
 
-
-        $('#headerProgramName').html(`<h4>Program : ${programData.program_name} (${formatDate(programData.program_start)} - ${formatDate(programData.program_end)})</h4>`);
-
-        stepActive(programData.step);
-
-
-        const programStart = programData.program_start;
-        const programEnd = programData.program_end;
-        const weeksArray = getWeeks(programStart, programEnd);
-
-        weeksArray.reverse(); // Membalikkan urutan elemen dalam array
-
-        setWeeks(weeksArray);
+        const daysArray = getDays(weekStart, weekEnd);
+        // daysArray.reverse(); // Membalikkan urutan elemen dalam array
+        setdays(daysArray);
 
     });
 
 
-    function setWeeks(weeksArray) {
-        $('#laporan').html('');
-        weeksArray.forEach((week, index) => {
-            $('#laporan').append(`
-                <div class="col-12">
-                    <div class="row mt-3 mb-3 p-3 rounded shadow">
+    function setdays(daysArray) {
+        $('#laporan-harian').html('');
+        daysArray.forEach((day, index) => {
+            $('#laporan-harian').append(`
+                <div class="col-12 bg-white">
+                    <div class="row mt-2 mb-3 p-3 rounded shadow-sm">
                         <div class="col-12">
                             <div class="row">
-                                <b>Minggu ke ${week.mingguKe} (${formatDate(week.weekStart)} - ${formatDate(week.weekStart)})</b>
+                                <b>${dayToName(day)}</b>
                             </div>
                             <div class="row justify-content-end">
-                                <a href="${baseUrl}/internship_saya/laporan/?id_program=${programData.id_program}?mingguKe=${week.mingguKe}?weekStart=${week.weekStart}?weekEnd=${week.weekEnd}" class="btn btn-primary">Lengkapi Laporan</a>
+                                <a href="${baseUrl}/internship_saya/laporan/?id_program=${id_program}?date=${day}" class="btn btn-primary">Buat Laporan Harian</a>
                             </div>
                             <div class="row">
-                                S S R K J
+                            ${formatDate(day)}
                             </div>
                         </div>
                     </div>
                 </div>
             `);
         });
-    }
-
-
-    function stepActive($step) {
-        switch ($step) {
-            case '0':
-                $('#step_1').addClass('wizard-step-active');
-                break;
-            case '1':
-                $('#step_1').addClass('wizard-step-active');
-                $('#step_2').addClass('wizard-step-active');
-                break;
-            case '2':
-                $('#step_1').addClass('wizard-step-active');
-                $('#step_2').addClass('wizard-step-active');
-                $('#step_3').addClass('wizard-step-active');
-                break;
-            case '3':
-                $('#step_1').addClass('wizard-step-active');
-                $('#step_2').addClass('wizard-step-active');
-                $('#step_3').addClass('wizard-step-active');
-                $('#step_4').addClass('wizard-step-active');
-                break;
-            case '4':
-                $('#step_1').addClass('wizard-step-active');
-                $('#step_2').addClass('wizard-step-active');
-                $('#step_3').addClass('wizard-step-active');
-                $('#step_4').addClass('wizard-step-active');
-                $('#step_5').addClass('wizard-step-active');
-                break;
-        }
     }
 
     function formatDate(dateString) {
@@ -147,35 +120,26 @@
         return formattedDate;
     }
 
-    function getWeeks(start, end) {
-        const weeks = [];
-        const startDate = new Date(start);
-        const endDate = new Date(end);
-        const currentDate = new Date(); // Tanggal sekarang
+    function dayToName(dateString) {
+        const days = [
+            "Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"
+        ];
 
-        let firstMonday = new Date(startDate);
-        firstMonday.setDate(startDate.getDate() + ((1 - startDate.getDay() + 7) % 7));
+        const date = new Date(dateString);
+        const day = date.getDay();
 
-        let weekStartDate = new Date(firstMonday);
-        let weekEndDate = new Date(firstMonday);
+        return days[day];
+    }
 
-        while (weekEndDate <= endDate) {
-            weekEndDate.setDate(weekEndDate.getDate() + 4);
-
-            // Hanya tambahkan minggu yang kurang dari atau sama dengan tanggal sekarang
-            if (weekStartDate <= currentDate) {
-                weeks.push({
-                    'mingguKe': weeks.length + 1,
-                    'weekStart': formatDateForWeeks(weekStartDate),
-                    'weekEnd': formatDateForWeeks(weekEndDate)
-                });
-            }
-
-            weekStartDate.setDate(weekEndDate.getDate() + 3);
-            weekEndDate.setDate(weekStartDate.getDate());
+    function getDays(startDate, endDate) {
+        const dateArray = [];
+        let currentDate = new Date(startDate);
+        const stopDate = new Date(endDate);
+        while (currentDate <= stopDate) {
+            dateArray.push(formatDateForWeeks(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
         }
-
-        return weeks;
+        return dateArray;
     }
 
     // Fungsi untuk mengubah format tanggal menjadi YYYY-MM-DD

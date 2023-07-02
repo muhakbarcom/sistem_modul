@@ -119,7 +119,7 @@
                                 <b>Minggu ke ${week.mingguKe} (${formatDate(week.weekStart)} - ${formatDate(week.weekStart)})</b>
                             </div>
                             <div class="row justify-content-end">
-                                <a href="${baseUrl}/internship_saya/laporan/?id_program=${programData.id_program}&mingguKe=${week.mingguKe}&weekStart=${week.weekStart}&weekEnd=${week.weekEnd}" class="btn btn-primary">Lengkapi Laporan</a>
+                                <a href="${baseUrl}/internship_saya/laporan/?id_program_mahasiswa=${programData.id}&id_program=${programData.id_program}&mingguKe=${week.mingguKe}&weekStart=${week.weekStart}&weekEnd=${week.weekEnd}" class="btn btn-primary">Lengkapi Laporan</a>
                             </div>
                             <div class="row">
                                 S S R K J

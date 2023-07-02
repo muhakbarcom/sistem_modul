@@ -169,10 +169,13 @@ class Internship_saya extends CI_Controller
 
     function laporan()
     {
+        $id_program_mahasiswa = $this->input->get('id_program_mahasiswa');
         $id_program = $this->input->get('id_program');
         $mingguKe = $this->input->get('mingguKe');
         $weekStart = $this->input->get('weekStart');
         $weekEnd = $this->input->get('weekEnd');
+
+        $dataLaporanHarian = $this->Internship_program_model->getLaporanHarian($id_program_mahasiswa);
 
         $data['title'] = 'Internship Saya';
         $data['subtitle'] = '';
@@ -181,9 +184,11 @@ class Internship_saya extends CI_Controller
         ];
 
         $data['id_program'] = $id_program;
+        $data['id_program_mahasiswa'] = $id_program_mahasiswa;
         $data['mingguKe'] = $mingguKe;
         $data['weekStart'] = $weekStart;
         $data['weekEnd'] = $weekEnd;
+        $data['dataLaporanHarian'] = $dataLaporanHarian;
 
         $data['page'] = 'internship_saya/laporan_detail';
         $this->load->view($this->config->item('template') . 'template/backend', $data);
