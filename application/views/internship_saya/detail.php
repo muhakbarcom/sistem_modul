@@ -38,6 +38,8 @@
 </div>
 <script>
     $(document).ready(function() {
+
+
         $.ajax({
             url: "<?php echo base_url(); ?>index.php/internship_program/getRoleByIdProgram",
             method: "POST",

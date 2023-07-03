@@ -134,6 +134,54 @@ class Internship_program_model extends CI_Model
         }
     }
 
+    function insertLaporanHarian($data)
+    {
+        $this->db->insert('laporan_harian', $data);
+        $id = $this->db->insert_id();
+
+        if ($id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function insertLaporanMingguan($data)
+    {
+        $this->db->insert('laporan_mingguan', $data);
+        $id = $this->db->insert_id();
+
+        if ($id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function IsThereWeeklyReport($data)
+    {
+        $this->db->where('id_program_mahasiswa', $data['id_program_mahasiswa']);
+        $this->db->where('weekStart', $data['weekStart']);
+        $this->db->where('weekEnd', $data['weekEnd']);
+        $this->db->from('laporan_mingguan');
+        $res = $this->db->get()->row_array();
+
+        return $res;
+    }
+
+    function getDataLaporanharian($id_program_mahasiswa = null)
+    {
+        $this->db->select('lh.*, m.nama, m.nim, p.program_name');
+        $this->db->from('laporan_harian lh');
+        $this->db->join('internship_program_mahasiswa m', 'lh.id_program_mahasiswa = m.id', 'inner');
+        $this->db->join('internship_program p', 'm.id_program = p.id_program', 'inner');
+        if ($id_program_mahasiswa != null) {
+            $this->db->where('lh.id_program_mahasiswa', $id_program_mahasiswa);
+        }
+        $this->db->order_by("lh.created_at", "desc");
+        return $this->db->get()->result();
+    }
+
     function isRegistered($id_program, $id_user)
     {
         $this->db->where('id_program', $id_program);
@@ -209,7 +257,13 @@ class Internship_program_model extends CI_Model
     {
         $this->db->where($this->id, $id);
         $this->db->delete($this->table);
-        $this->db->where($this->id, $id);
+        $this->deleteDetail($id);
+    }
+
+    // delete data
+    function deleteDetail($id)
+    {
+        $this->db->where("id_i_program", $id);
         $this->db->delete("internship_program_role");
     }
 

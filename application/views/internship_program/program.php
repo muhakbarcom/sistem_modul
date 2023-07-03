@@ -33,7 +33,7 @@
                     if (isRegistered) {
                         button = `<button disabled class="btn btn-primary">Anda Telah Terdaftar</button>
                         <br>
-                        <a target="_BLANK" href="<?= base_url('internship_saya/registration/'); ?>${id_program}"><small>Lihat Status Pendaftaran</small></a>
+                        <a target="_BLANK" href="<?= base_url('internship_saya/detail/'); ?>${id_program}"><small>Lihat Status Pendaftaran</small></a>
                         `;
                     } else {
                         button = `

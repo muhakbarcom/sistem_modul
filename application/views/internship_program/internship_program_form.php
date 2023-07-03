@@ -29,7 +29,7 @@
                         <select class="select2 form-control" name="role" id="role" multiple>
                         </select>
                     </div>
-                    <input type="hidden" name="id_program" value="<?php echo $id_program; ?>" />
+                    <input type="hidden" name="id_program" id="id_program" value="<?php echo $id_program; ?>" />
                     <button type="button" class="btn btn-primary" id="submit"><?php echo $button ?></button>
                     <a href="<?php echo site_url('internship_program') ?>" class="btn btn-secondary">Cancel</a>
                 </form>
@@ -40,6 +40,8 @@
 <script>
     var id_program = <?php echo $id_program; ?>;
     var roles = [];
+    var mode = "<?php echo $mode; ?>";
+    var urlPost = "<?php echo $action; ?>";
 
     $(document).ready(function() {
         if (id_program != 0) {
@@ -85,7 +87,7 @@
 
         $('#submit').on('click', function() {
             $.ajax({
-                url: "<?php echo base_url(); ?>index.php/internship_program/create_action",
+                url: urlPost,
                 method: "POST",
                 async: false,
                 dataType: 'json',
@@ -94,7 +96,8 @@
                     program_desc: $('#program_desc').val(),
                     program_start: $('#program_start').val(),
                     program_end: $('#program_end').val(),
-                    role: $('#role').val()
+                    id_program: $('#id_program').val(),
+                    role: $('#role').val(),
                 },
                 success: function(data) {
                     if (data.status == true) {

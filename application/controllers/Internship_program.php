@@ -124,6 +124,7 @@ class Internship_program extends CI_Controller
             'program_end' => set_value('program_end'),
         );
         $data['title'] = 'Internship Program';
+        $data['mode'] = 'ADD';
         $data['subtitle'] = '';
         $data['crumb'] = [
             'Dashboard' => '',
@@ -211,6 +212,7 @@ class Internship_program extends CI_Controller
                 'program_end' => set_value('program_end', $row->program_end),
             );
             $data['title'] = 'Internship Program';
+            $data['mode'] = 'EDIT';
             $data['subtitle'] = '';
             $data['crumb'] = [
                 'Dashboard' => '',
@@ -231,16 +233,52 @@ class Internship_program extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->update($this->input->post('id_program', TRUE));
         } else {
-            $data = array(
-                'program_name' => $this->input->post('program_name', TRUE),
-                'program_desc' => $this->input->post('program_desc', TRUE),
-                'program_start' => $this->input->post('program_start', TRUE),
-                'program_end' => $this->input->post('program_end', TRUE),
-            );
+            $this->db->trans_start(); // Memulai transaksi
+            try {
+                $data = array(
+                    'program_name' => $this->input->post('program_name', TRUE),
+                    'program_desc' => $this->input->post('program_desc', TRUE),
+                    'program_start' => $this->input->post('program_start', TRUE),
+                    'program_end' => $this->input->post('program_end', TRUE),
+                );
+                $id = $this->input->post('id_program', TRUE);
+                $roles = $this->input->post('role', TRUE);
 
-            $this->Internship_program_model->update($this->input->post('id_program', TRUE), $data);
-            $this->session->set_flashdata('success', 'Update Record Success');
-            redirect(site_url('internship_program'));
+                $this->Internship_program_model->deleteDetail($id);
+                $this->Internship_program_model->update($id, $data);
+
+                foreach ($roles as $role) {
+                    $data = array(
+                        'id_i_role' => $role,
+                        'id_i_program' => $id,
+                    );
+
+                    $this->Internship_program_model->insert_role($data);
+                }
+
+                $this->db->trans_complete(); // Menyelesaikan transaksi
+
+                if ($this->db->trans_status() === FALSE) {
+                    throw new Exception('Database transaction failed.');
+                }
+
+                $this->session->set_flashdata('success', 'Update Record Success');
+                $response = array(
+                    'code' => '200', // success or not?
+                    'status' => true,
+                    'message' => 'Create Record Success',
+                );
+                echo json_encode($response);
+            } catch (Exception $e) {
+                $this->db->trans_rollback(); // Menggulirkan kembali transaksi jika terjadi kesalahan
+                $this->session->set_flashdata('error', 'Update Record Failed: ' . $e->getMessage());
+                $response = array(
+                    'code' => '400', // success or not?
+                    'status' => false,
+                    'message' => $e->getMessage(),
+                );
+                echo json_encode($response);
+            }
         }
     }
 

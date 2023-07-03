@@ -163,16 +163,7 @@ $setting_aplikasi = $this->db->get('setting')->row();
                 </a>
                 <?php if ($this->ion_auth->in_group('13')) : ?>
                   <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-book"></i> CV
-                  </a>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-pencil-alt"></i> Penilaian
-                  </a>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-sign-out-alt"></i> IDT (?)
-                  </a>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-book-open"></i> Laporan Akhir
+                    <i class="fas fa-pencil-alt"></i> Nilai
                   </a>
                   <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
                     <i class="far fa-bookmark"></i> Sertifikat
@@ -386,6 +377,27 @@ $setting_aplikasi = $this->db->get('setting')->row();
   <!-- Template JS File -->
   <script src="<?php echo base_url(); ?>stisla_assets/js/scripts.js"></script>
   <script src="<?php echo base_url(); ?>stisla_assets/js/custom.js"></script>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalBootstrap" tabindex="-1" role="dialog" aria-labelledby="modalBootstrapLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalBootstrapTitle"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="modalBootstrapBody">
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="modalBootstrapSave">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>
@@ -415,270 +427,7 @@ $setting_aplikasi = $this->db->get('setting')->row();
 
 <script type="text/javascript">
   // when syncBtn is clicked
-  $('#syncBtn').click(function() {
-    // add class 'btn-progress' to syncBtn
 
-    Swal.fire({
-      title: 'Are you sure?',
-      allowOutsideClick: false,
-      text: "Sync data will replace current data!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, sync it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // change pointer to loading
-        document.body.style.cursor = 'wait';
-        $(this).addClass('btn-progress');
-        // send ajax request
-        statustext = 'Just take your coffee and wait for a while.';
-        Swal.fire({
-          allowOutsideClick: false,
-          title: 'Synchronizing!',
-          html: statustext,
-          didOpen: () => {
-            Swal.showLoading()
-          }
-        })
-
-        sync_client(
-          function() {
-            sync_project(
-              function() {
-                sync_project_member(
-                  function() {
-                    sync_employee(
-                      function() {
-                        sync_logtime(
-                          function() {
-                            sync_milestone(
-                              function() {
-                                sync_client_table(
-                                  function() {
-                                    sync_project_table(
-                                      function() {
-                                        sync_invoice(
-                                          function() {
-                                            sync_general_cost();
-                                          }
-                                        );
-                                      }
-                                    );
-                                  }
-                                );
-                              }
-                            );
-                          }
-                        );
-                      }
-                    );
-                  }
-                );
-              }
-            );
-          }
-        );
-
-        function sync_client(callback) {
-          // sync client data
-          $.ajax({
-            url: '<?= base_url('/Autosync/sync_client'); ?>',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.status == 'success') {
-                myCallback("<br><br> <div class='text-left' style='font-size:14px'><i class='fas fa-check-circle' style='color:green'></i> " + data.message +
-                  "</div>");
-                callback();
-              } else {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-times-circle'></i> " + data.message + "</div>");
-              }
-            },
-          });
-        }
-
-        function sync_project(callback) {
-          $.ajax({
-            url: '<?= base_url('/Autosync/sync_project'); ?>',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.status == 'success') {
-                myCallback("<div class='text-left' style='font-size:14px'><i class='fas fa-check-circle' style='color:green'></i> " + data.message + "</div>");
-                callback();
-              } else {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-times-circle'></i> " + data.message + "</div>");
-              }
-            },
-          });
-        }
-
-        function sync_project_member(callback) {
-          $.ajax({
-            url: '<?= base_url('/Autosync/sync_project_member'); ?>',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.status == 'success') {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-check-circle' style='color:green'></i> " + data.message + "</div>");
-                callback();
-              } else {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-times-circle'></i> " + data.message + "</div>");
-              }
-            },
-          });
-        }
-
-        function sync_employee(callback) {
-          $.ajax({
-            url: '<?= base_url('/Autosync/sync_employee'); ?>',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.status == 'success') {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-check-circle' style='color:green'></i> " + data.message + "</div>");
-                callback();
-              } else {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-times-circle'></i> " + data.message + "</div>");
-              }
-            },
-          });
-        }
-
-        function sync_logtime(callback) {
-          $.ajax({
-            url: '<?= base_url('/Autosync/sync_logtime'); ?>',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.status == 'success') {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-check-circle' style='color:green'></i> " + data.message + "</div>");
-                callback();
-              } else {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-times-circle'></i> " + data.message + "</div>");
-              }
-            },
-          });
-        }
-
-        function sync_milestone(callback) {
-          $.ajax({
-            url: '<?= base_url('/Autosync/sync_milestone'); ?>',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.status == 'success') {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-check-circle' style='color:green'></i> " + data.message + "</div>");
-                callback();
-              } else {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-times-circle'></i> " + data.message + "</div>");
-              }
-            },
-          });
-        }
-
-        function sync_client_table(callback) {
-          $.ajax({
-            url: '<?= base_url('/Autosync/sync_client_table'); ?>',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.status == 'success') {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-check-circle' style='color:green'></i> " + data.message + "</div>");
-                callback();
-              } else {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-times-circle'></i> " + data.message + "</div>");
-              }
-            },
-          });
-        }
-
-        function sync_project_table(callback) {
-          $.ajax({
-            url: '<?= base_url('/Autosync/sync_project_table'); ?>',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.status == 'success') {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-check-circle' style='color:green'></i> " + data.message + "</div>");
-                callback();
-              } else {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-times-circle'></i> " + data.message + "</div>");
-              }
-            },
-          });
-        }
-
-        function sync_invoice(callback) {
-          $.ajax({
-            url: '<?= base_url('/Autosync/sync_invoice'); ?>',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.status == 'success') {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-check-circle' style='color:green'></i> " + data.message + "</div>");
-                callback();
-              } else {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-times-circle'></i> " + data.message + "</div>");
-              }
-            },
-          });
-        }
-
-        function sync_general_cost() {
-          $.ajax({
-            url: '<?= base_url('/Autosync/sync_general_cost'); ?>',
-            type: 'POST',
-            dataType: 'json',
-            success: function(data) {
-              if (data.status == 'success') {
-                myCallback("<div class='text-left' style='font-size:14px;'> <i class='fas fa-check-circle' style='color:green'></i> " + data.message + "</div>");
-                //delay 3 second
-                setTimeout(function() {
-                  // change pointer to default
-                  document.body.style.cursor = 'default';
-                  // remove class 'btn-progress' from syncBtn
-                  $('#syncBtn').removeClass('btn-progress');
-                  // show success alert
-                  myCallback('Done');
-                }, 3000);
-
-              } else {
-                myCallback("<div class='text-left' style='font-size:14px'> <i class='fas fa-times-circle'></i> " + data.message + "</div>");
-              }
-            },
-          });
-        }
-
-        function myCallback(response) {
-          statustext = statustext + response;
-          if (response == 'Done') {
-            Swal.fire({
-              // allowOutsideClick: false,
-              title: 'Sync complete!',
-              html: statustext,
-              // didOpen: () => {
-              //   Swal.showLoading()
-              // }
-            })
-          } else {
-            Swal.fire({
-              allowOutsideClick: false,
-              title: 'Synchronizing!',
-              html: statustext,
-              didOpen: () => {
-                Swal.showLoading()
-              }
-            })
-          }
-
-        }
-
-      }
-    })
-  })
 
   window.addEventListener("load", function() {
     Swal.hideLoading()

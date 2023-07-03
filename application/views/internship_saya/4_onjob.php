@@ -59,11 +59,27 @@
                 </div>
 
                 <div class="row mt-4">
-                    <div class="col-12 p-3 bg-warning text-dark">
-                        <p>
-                            <b>Tata Cara Pengisian IDT</b><br>
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi, voluptates facilis labore eaque cum harum quis, dignissimos aspernatur consequatur eveniet sed quibusdam distinctio non natus ipsa hic enim accusantium! Minus?
-                        </p>
+                    <div class="col-12 p-3 ">
+                        <div id="accordion" class="text-dark">
+                            <div class="accordion">
+                                <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-1" aria-expanded="true">
+                                    <h4><b><i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                            Tata Cara Pengisian IDT</b></h4>
+                                </div>
+                                <div class="accordion-body collapse bg-warning" id="panel-body-1" data-parent="#accordion">
+                                    <p class="mb-0">
+                                        Silahkan lengkapi internship Daily Timesheet (IDT) kamu sebelum tanggal 25 pada bulan yang sedan berjalan dengan ketentuan sebagai berikut :
+                                    <ol>
+                                        <li>Input detail aktivitas harian kamu</li>
+                                        <li>Jika berhalangan On Job atau terdapat hari libur nasional, pilih keterangan "Tidak Hadir" sesuai dengan alasan ketidakhadiran kamu.</li>
+                                        <li>Setelah IDT selama satu minggu telah terinput, kamu wajib mengisi weekly Report terkait hal yang telah dipelajari dalam kurun waktu tersebut.</li>
+                                        <li>Kamu wajib mendapatkan approval minimal 3 Card Minggu. Setiap maksimal tanggal 25 pada bulan yang sedang berjalan.</li>
+                                    </ol>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -116,7 +132,7 @@
                     <div class="row mt-3 mb-3 p-3 rounded shadow">
                         <div class="col-12">
                             <div class="row">
-                                <b>Minggu ke ${week.mingguKe} (${formatDate(week.weekStart)} - ${formatDate(week.weekStart)})</b>
+                                <b>Minggu ke ${week.mingguKe} (${formatDate(week.weekStart)} - ${formatDate(week.weekEnd)})</b>
                             </div>
                             <div class="row justify-content-end">
                                 <a href="${baseUrl}/internship_saya/laporan/?id_program_mahasiswa=${programData.id}&id_program=${programData.id_program}&mingguKe=${week.mingguKe}&weekStart=${week.weekStart}&weekEnd=${week.weekEnd}" class="btn btn-primary">Lengkapi Laporan</a>
@@ -181,7 +197,7 @@
         const weeks = [];
         const startDate = new Date(start);
         const endDate = new Date(end);
-        const currentDate = new Date(); // Tanggal sekarang
+        const currentDate = new Date();
 
         let firstMonday = new Date(startDate);
         firstMonday.setDate(startDate.getDate() + ((1 - startDate.getDay() + 7) % 7));
@@ -189,11 +205,15 @@
         let weekStartDate = new Date(firstMonday);
         let weekEndDate = new Date(firstMonday);
 
+        // find end days of currentDate
+        let currentDateInWeek = new Date(currentDate);
+        currentDateInWeek.setDate(currentDateInWeek.getDate() + 4);
+
         while (weekEndDate <= endDate) {
+            weekEndDate = new Date(weekEndDate);
             weekEndDate.setDate(weekEndDate.getDate() + 4);
 
-            // Hanya tambahkan minggu yang kurang dari atau sama dengan tanggal sekarang
-            if (weekStartDate <= currentDate) {
+            if (weekEndDate <= currentDateInWeek) {
                 weeks.push({
                     'mingguKe': weeks.length + 1,
                     'weekStart': formatDateForWeeks(weekStartDate),
@@ -201,8 +221,9 @@
                 });
             }
 
+            weekStartDate = new Date(weekEndDate);
             weekStartDate.setDate(weekEndDate.getDate() + 3);
-            weekEndDate.setDate(weekStartDate.getDate());
+            weekEndDate = new Date(weekStartDate);
         }
 
         return weeks;

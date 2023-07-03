@@ -193,4 +193,103 @@ class Internship_saya extends CI_Controller
         $data['page'] = 'internship_saya/laporan_detail';
         $this->load->view($this->config->item('template') . 'template/backend', $data);
     }
+
+    function insertLaporanHarian()
+    {
+        $id_program_mahasiswa = $this->input->post('id_program_mahasiswa');
+        $jam_mulai = $this->input->post('jam_mulai');
+        $jam_selesai = $this->input->post('jam_selesai');
+        $tanggal = $this->input->post('tanggal');
+        $aktivitas = $this->input->post('aktivitas');
+        $keterangan_kehadiran = $this->input->post('keterangan');
+        $status_kehadiran = $this->input->post('statusKehadiran');
+        $alasan_kehadiran = $this->input->post('alasanKehadiran');
+
+        $data = [
+            'id_program_mahasiswa' => $id_program_mahasiswa,
+            'jam_mulai' => $jam_mulai,
+            'jam_selesai' => $jam_selesai,
+            'tanggal' => $tanggal,
+            'aktivitas' => $aktivitas,
+            'keterangan_kehadiran' => $keterangan_kehadiran,
+            'status_kehadiran' => $status_kehadiran,
+            'alasan_kehadiran' => $alasan_kehadiran,
+        ];
+
+        $response_status = $this->Internship_program_model->insertLaporanHarian($data);
+        $response = [
+            'status' => $response_status,
+            'data' => $data,
+            'message' => $response_status ? 'Data berhasil disimpan' : 'Data gagal disimpan'
+        ];
+
+        echo json_encode($response);
+    }
+
+    function insertLaporanMingguan()
+    {
+        $id_program_mahasiswa = $this->input->post('id_program_mahasiswa');
+        $weekStart = $this->input->post('weekStart');
+        $weekEnd = $this->input->post('weekEnd');
+        $laporan = $this->input->post('laporanMingguanTeks');
+
+        $data = [
+            'id_program_mahasiswa' => $id_program_mahasiswa,
+            'weekStart' => $weekStart,
+            'weekEnd' => $weekEnd,
+            'laporan' => $laporan,
+        ];
+
+        $response_status = $this->Internship_program_model->insertLaporanMingguan($data);
+        $response = [
+            'status' => $response_status,
+            'data' => $data,
+            'message' => $response_status ? 'Data berhasil disimpan' : 'Data gagal disimpan'
+        ];
+
+        echo json_encode($response);
+    }
+
+    function IsThereWeeklyReport()
+    {
+        $id_program_mahasiswa = $this->input->post('id_program_mahasiswa');
+        $weekStart = $this->input->post('weekStart');
+        $weekEnd = $this->input->post('weekEnd');
+
+        $data = [
+            'id_program_mahasiswa' => $id_program_mahasiswa,
+            'weekStart' => $weekStart,
+            'weekEnd' => $weekEnd,
+        ];
+
+        $response_status = $this->Internship_program_model->IsThereWeeklyReport($data);
+
+        // jika response_status mengembalikan data, maka data tersebut akan dikirim ke frontend
+        if ($response_status) {
+            $status = true;
+        } else {
+            $status = false;
+        }
+
+        $response = [
+            'status' => $status,
+            'message' => $status ? 'Data ditemukan' : 'Data tidak ditemukan!',
+            'data' => $response_status
+        ];
+
+        echo json_encode($response);
+    }
+
+    function getDataLaporanharian()
+    {
+        $id_program_mahasiswa = $this->input->get('id_program_mahasiswa');
+        $dataLaporanHarian = $this->Internship_program_model->getLaporanHarian($id_program_mahasiswa);
+        $response = [
+            'status' => true,
+            'data' => $dataLaporanHarian,
+            'message' => 'Success'
+        ];
+
+        echo json_encode($response);
+    }
 }
