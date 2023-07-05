@@ -167,6 +167,48 @@ class Internship_saya extends CI_Controller
         echo json_encode($response);
     }
 
+    function onGraduate()
+    {
+        $id = $this->input->post('id_program_mahasiswa');
+        $step = 4; // 1 = Registration, 2 = Administration, 3 = Interview, 4 = On Job, 5 = Graduate
+        $status = 1; // 1 = Sedang Berjalan, 2 = Selesai, 3 = Dibatalkan
+
+        $isGraduate = $this->isGraduate($id);
+
+        $data = [
+            'id' => $id,
+            'step' => $step,
+            'created_at' => date('Y-m-d H:i:s'),
+            'status' => $status
+        ];
+
+        if ($isGraduate) {
+            $response_status = true;
+        } else {
+            $response_status = $this->Internship_program_model->onGraduate($data);
+        }
+
+        $message = 'Data berhasil disimpan';
+
+        $response = [
+            'status' => $response_status,
+            'data' => $data,
+            'message' => $message
+        ];
+
+        echo json_encode($response);
+    }
+
+    function isGraduate($id)
+    {
+        $data = $this->Internship_program_model->isGraduate($id);
+        if ($data) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function laporan()
     {
         $id_program_mahasiswa = $this->input->get('id_program_mahasiswa');
@@ -250,6 +292,53 @@ class Internship_saya extends CI_Controller
         echo json_encode($response);
     }
 
+    function insertLaporanAkhir()
+    {
+        $this->load->library('upload');
+
+        $id = $this->input->post('id_program_mahasiswa');
+        $fileLaporanAkhir = $_FILES['fileLaporanAkhir'];
+
+        if ($fileLaporanAkhir['error'] == UPLOAD_ERR_OK) {
+            $config['upload_path'] = './assets/uploads/data/laporan_akhir/';
+            $config['allowed_types'] = 'pdf';
+            $config['max_size'] = 2048; // Ukuran maksimum dalam kilobita (KB)
+
+            $this->upload->initialize($config);
+
+            if ($this->upload->do_upload('fileLaporanAkhir')) {
+                // File berhasil diunggah
+                $fileData = $this->upload->data(); // Informasi file yang diunggah
+                $fileLaporanAkhirName = $fileData['file_name']; // Nama file
+
+                // Lakukan operasi lain terkait file yang diunggah
+            } else {
+                // File gagal diunggah
+                $error = $this->upload->display_errors();
+
+                // Tindakan yang ingin Anda lakukan jika terjadi kesalahan saat unggah file
+            }
+
+            $data = [
+                'id' => $id,
+                'file' => $fileLaporanAkhirName,
+            ];
+            $response_status = $this->Internship_program_model->insertLaporanAkhir($data);
+            $message = 'File Laporan Akhir berhasil diunggah';
+        } else {
+            $response_status = false;
+            $message = 'File Laporan Akhir gagal diunggah';
+        }
+
+        $response = [
+            'status' => $response_status,
+            'data' => $data,
+            'message' => $message
+        ];
+
+        echo json_encode($response);
+    }
+
     function IsThereWeeklyReport()
     {
         $id_program_mahasiswa = $this->input->post('id_program_mahasiswa');
@@ -291,5 +380,40 @@ class Internship_saya extends CI_Controller
         ];
 
         echo json_encode($response);
+    }
+
+    function getDataLaporanMingguan()
+    {
+        $id_program_mahasiswa = $this->input->get('id_program_mahasiswa');
+        $dataLaporanMingguan = $this->Internship_program_model->getLaporanMingguan($id_program_mahasiswa);
+        $response = [
+            'status' => true,
+            'data' => $dataLaporanMingguan,
+            'message' => 'Success'
+        ];
+
+        echo json_encode($response);
+    }
+
+    function getDataLaporanAkhir()
+    {
+        $id_program_mahasiswa = $this->input->get('id_program_mahasiswa');
+        $dataLaporanMingguan = $this->Internship_program_model->getLaporanAkhir($id_program_mahasiswa);
+        $response = [
+            'status' => true,
+            'data' => $dataLaporanMingguan,
+            'message' => 'Success'
+        ];
+
+        echo json_encode($response);
+    }
+
+    function downloadSertifikat($id_program_mahasiswa)
+    {
+        $dataSertifikat = $this->Internship_program_model->getIntershipProgramMahasiswa($id_program_mahasiswa)[0];
+        // print_r($dataSertifikat);
+        // die();
+
+        $this->load->view('sertifikat', $dataSertifikat);
     }
 }

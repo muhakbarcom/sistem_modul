@@ -15,6 +15,9 @@
                                 <div class="wizard-step-label">
                                     Registration
                                 </div>
+                                <div id="step1Date">
+
+                                </div>
                             </div>
                             <div class="wizard-step" id="step_2">
                                 <div class="wizard-step-icon">
@@ -22,6 +25,9 @@
                                 </div>
                                 <div class="wizard-step-label">
                                     Administration
+                                </div>
+                                <div id="step2Date">
+
                                 </div>
                             </div>
                             <div class="wizard-step" id="step_3">
@@ -31,6 +37,9 @@
                                 <div class="wizard-step-label">
                                     Interview
                                 </div>
+                                <div id="step3Date">
+
+                                </div>
                             </div>
                             <div class="wizard-step" id="step_4">
                                 <div class="wizard-step-icon">
@@ -39,6 +48,9 @@
                                 <div class="wizard-step-label">
                                     On Job
                                 </div>
+                                <div id="step4Date">
+
+                                </div>
                             </div>
                             <div class="wizard-step" id="step_5">
                                 <div class="wizard-step-icon">
@@ -46,6 +58,9 @@
                                 </div>
                                 <div class="wizard-step-label">
                                     Graduate
+                                </div>
+                                <div id="step5Date">
+
                                 </div>
                             </div>
                         </div>
@@ -84,6 +99,8 @@
 <script>
     var programData = <?php echo json_encode($dataProgram); ?>;
     var data_internship;
+    var data_step;
+    var baseUrl = `<?= base_url(); ?>`;
 
     $(document).ready(function() {
 
@@ -99,6 +116,8 @@
                 $('#video_interview').html(`<iframe width="100%" height="315" src="${videoUrl}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`);
                 $('#btnNext').attr('disabled', false);
             }
+
+
         });
 
         $('#headerProgramName').html(`<h4>Program : ${programData.program_name} (${formatDate(programData.program_start)} - ${formatDate(programData.program_end)})</h4>`);
@@ -149,8 +168,51 @@
 
         })
 
+        getInternshipProgramMahasiswaDetail();
+        var step0 = data_step.find(x => x.step == 0);
+        var step1 = data_step.find(x => x.step == 1);
+        var step2 = data_step.find(x => x.step == 2);
+        var step3 = data_step.find(x => x.step == 3);
+        var step4 = data_step.find(x => x.step == 4);
+
+
+        if (step0 != undefined) {
+            $('#step1Date').html(`<small>(${step0.created_at})</small>`);
+            console.log(step0.created_at);
+        }
+
+        if (step1 != undefined) {
+            $('#step2Date').html(`<small>(${step1.created_at})</small>`);
+        }
+
+        if (step2 != undefined) {
+            $('#step3Date').html(`<small>(${step2.created_at})</small>`);
+        }
+
+        if (step3 != undefined) {
+            $('#step4Date').html(`<small>(${step3.created_at})</small>`);
+        }
+
+        if (step4 != undefined) {
+            $('#step5Date').html(`<small>(${step4.created_at})</small>`);
+        }
 
     });
+
+    function getInternshipProgramMahasiswaDetail() {
+        $.ajax({
+            url: baseUrl + 'internship_program/getInternshipProgramMahasiswaDetail',
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            data: {
+                id_program_mahasiswa: programData.id
+            },
+            success: function(data) {
+                data_step = data;
+            }
+        })
+    }
 
     function convertToEmbedUrl(url) {
         var videoId;

@@ -104,6 +104,13 @@ class Internship_program extends CI_Controller
         $status = false;
         if ($data != null) {
             $status = true;
+            $dataDetail = array(
+                'id' => $data,
+                'step' => 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'status' => 1
+            );
+            $this->Internship_program_model->insertStepRegisterDefault($dataDetail);
         }
         $response = array(
             'status' => $status,
@@ -194,6 +201,13 @@ class Internship_program extends CI_Controller
     {
         $id = $this->input->post('id_program', TRUE);
         $data = $this->Internship_program_model->getRoleByIdProgram($id);
+        echo json_encode($data);
+    }
+
+    public function getInternshipProgramMahasiswaDetail()
+    {
+        $id = $this->input->post('id_program_mahasiswa', TRUE);
+        $data = $this->Internship_program_model->getInternshipProgramMahasiswaDetail($id);
         echo json_encode($data);
     }
 

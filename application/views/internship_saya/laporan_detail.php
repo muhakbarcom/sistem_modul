@@ -109,7 +109,7 @@
         var modalBootstrap = $('#modalBootstrap');
         var modalTitle = $('#modalBootstrapTitle');
         var modalBody = $('#modalBootstrapBody');
-
+        $('#modalBootstrapSave').show();
         modalBootstrap.modal('show');
 
         modalTitle.html('Buat Laporan Harian');
@@ -258,7 +258,7 @@
         var modalBootstrap = $('#modalBootstrap');
         var modalTitle = $('#modalBootstrapTitle');
         var modalBody = $('#modalBootstrapBody');
-
+        $('#modalBootstrapSave').show();
         modalBootstrap.modal('show');
 
         modalTitle.html('Buat Laporan Mingguan');

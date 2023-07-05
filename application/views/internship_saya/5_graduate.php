@@ -67,25 +67,48 @@
                     </div>
                 </div>
 
-                <form class="wizard-content mt-2">
-                    <div class="wizard-pane">
-                        <div class="form-group row justify-content-center">
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h3>Graduation</h3>
+                    </div>
+                </div>
 
-                            <div><b>Please Select Role</b></div>
-                            <div class="col-12 mt-2">
-                                <div class="selectgroup w-100" id="role">
+                <div class="row mt-4">
+                    <div class="col-12 mb-4">
+                        <div class="hero align-items-center bg-success text-white" id="secLaporanAkhir">
+                            <div class="hero-inner text-center">
+                                <h2>Download Sertifikat</h2>
+                                <p class="lead" id="msgLaporanAkhir">Selamat anda telah menyelesaikan program magang. Silakan download sertifikat!</p>
+                                <div class="row mt-4 justify-content-center">
+                                    <div class="text-left text-dark font-weight-bold" id="laporanAkhirTimeline"></div>
+                                </div>
+                                <div class="mt-2" id="btnDownloadSertifikat">
 
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="form-group row">
-                            <div class="col-12 text-center">
-                                <button type="button" class="btn btn-icon icon-right btn-primary" id="btnNext">Next <i class="fas fa-arrow-right"></i></button>
+
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h3>Nilai</h3>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 mb-4">
+                        <div class="hero align-items-center bg-warning text-white" id="secLaporanAkhir">
+                            <div class="hero-inner text-center">
+                                <h2>Nilai Anda Dalam Program Magang Ini</h2>
+                                <h2><b><?= $dataProgram->nilai_akhir; ?></b></h2>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -95,9 +118,11 @@
 <script>
     var programData = <?php echo json_encode($dataProgram); ?>;
     var data_internship;
-    const role = $('#role');
+    var baseUrl = '<?php echo base_url(); ?>';
     var data_step;
-    var baseUrl = `<?= base_url(); ?>`;
+    var data_laporan_akhir;
+    var data_laporan_mingguan;
+    var totalWeeks;
 
     $(document).ready(function() {
 
@@ -106,68 +131,14 @@
 
         stepActive(programData.step);
 
-        $.ajax({
-            url: `<?= base_url(); ?>internship_role/getAllData`,
-            type: 'GET',
-            dataType: 'json',
-            success: function(data) {
-                data_internship = data;
-                var html = '';
-                for (let i = 0; i < data_internship.length; i++) {
 
-                    html += `<label class="selectgroup-item">
-                                        <input type="radio" name="id_role" value="${data_internship[i].id_internship_role}" class="selectgroup-input">
-                                        <span class="selectgroup-button">${data_internship[i].role_name}</span>
-                                    </label>`;
-                }
-                role.html(html);
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                // Handle error jika request AJAX gagal
-                console.log(xhr.status + ': ' + textStatus);
-            }
-        });
+        const programStart = programData.program_start;
+        const programEnd = programData.program_end;
+        const weeksArray = getWeeks(programStart, programEnd);
 
-        // showList();
-
-        $('#btnNext').on('click', function() {
-            var id_role = $("input[name='id_role']:checked").val();
-            if (id_role == undefined) {
-                iziToast.error({
-                    title: 'Role must be selected!',
-                    message: 'Please select role first!',
-                    position: 'topRight'
-                });
-            } else {
-                $.ajax({
-                    url: `<?= base_url(); ?>internship_saya/registration`,
-                    type: 'POST',
-                    dataType: 'json',
-                    data: {
-                        id_role: id_role,
-                        id_program: programData.id_program,
-                        id: programData.id
-                    },
-                    success: function(data) {
-                        if (data.status == true) {
-                            // console.log(data)
-                            window.location.reload();
-                        } else {
-                            iziToast.error({
-                                title: 'Fail!',
-                                message: data.message,
-                                position: 'topRight'
-                            });
-                        }
-                    },
-                    error: function(xhr, textStatus, errorThrown) {
-                        // Handle error jika request AJAX gagal
-                        console.log(xhr.status + ': ' + textStatus);
-                    }
-                });
-            }
-
-        })
+        weeksArray.reverse(); // Membalikkan urutan elemen dalam array
+        totalWeeks = weeksArray.length;
+        // setWeeks(weeksArray);
 
         getInternshipProgramMahasiswaDetail();
         var step0 = data_step.find(x => x.step == 0);
@@ -198,22 +169,22 @@
             $('#step5Date').html(`<small>(${step4.created_at})</small>`);
         }
 
-    });
+        $('#modalBootstrapSave').on('click', function() {
+            var modeInput = $('#modeInput').val();
+            var fileLaporanAkhir = $('#fileLaporanAkhir').prop('files')[0];
+            var id_program_mahasiswa = programData.id;
 
-    function getInternshipProgramMahasiswaDetail() {
-        $.ajax({
-            url: baseUrl + 'internship_program/getInternshipProgramMahasiswaDetail',
-            type: 'POST',
-            dataType: 'json',
-            async: false,
-            data: {
-                id_program_mahasiswa: programData.id
-            },
-            success: function(data) {
-                data_step = data;
-            }
-        })
-    }
+            var formData = new FormData();
+            formData.append('fileLaporanAkhir', fileLaporanAkhir);
+            formData.append('id_program_mahasiswa', id_program_mahasiswa);
+
+            unggahLaporanAkhirAction(formData);
+        });
+
+        $('#btnDownloadSertifikat').html(` <a href="<?= base_url('internship_saya/downloadSertifikat/'); ?>${programData.id}" target="_BLANK" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="fa fa-download" aria-hidden="true"></i> Download</a>`)
+
+
+    });
 
     function stepActive($step) {
         switch ($step) {
@@ -258,5 +229,64 @@
 
         const formattedDate = `${day} ${months[month]} ${year}`;
         return formattedDate;
+    }
+
+    // Fungsi untuk mengubah format tanggal menjadi YYYY-MM-DD
+    function formatDateForWeeks(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function getWeeks(start, end) {
+        const weeks = [];
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        const currentDate = new Date();
+
+        let firstMonday = new Date(startDate);
+        firstMonday.setDate(startDate.getDate() + ((1 - startDate.getDay() + 7) % 7));
+
+        let weekStartDate = new Date(firstMonday);
+        let weekEndDate = new Date(firstMonday);
+
+        // find end days of currentDate
+        let currentDateInWeek = new Date(currentDate);
+        currentDateInWeek.setDate(currentDateInWeek.getDate() + 4);
+
+        while (weekEndDate <= endDate) {
+            weekEndDate = new Date(weekEndDate);
+            weekEndDate.setDate(weekEndDate.getDate() + 4);
+
+            if (weekEndDate <= currentDateInWeek) {
+                weeks.push({
+                    'mingguKe': weeks.length + 1,
+                    'weekStart': formatDateForWeeks(weekStartDate),
+                    'weekEnd': formatDateForWeeks(weekEndDate)
+                });
+            }
+
+            weekStartDate = new Date(weekEndDate);
+            weekStartDate.setDate(weekEndDate.getDate() + 3);
+            weekEndDate = new Date(weekStartDate);
+        }
+
+        return weeks;
+    }
+
+    function getInternshipProgramMahasiswaDetail() {
+        $.ajax({
+            url: baseUrl + 'internship_program/getInternshipProgramMahasiswaDetail',
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            data: {
+                id_program_mahasiswa: programData.id
+            },
+            success: function(data) {
+                data_step = data;
+            }
+        })
     }
 </script>

@@ -165,17 +165,11 @@ $setting_aplikasi = $this->db->get('setting')->row();
                   <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
                     <i class="fas fa-pencil-alt"></i> Nilai
                   </a>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="far fa-bookmark"></i> Sertifikat
-                  </a>
+
                 <?php endif; ?>
                 <?php if ($this->ion_auth->in_group('14')) : ?>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-pencil-alt"></i> Penilaian
-                  </a>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-book-open"></i> Laporan Akhir
-                  </a>
+
+
                 <?php endif; ?>
                 <div class="dropdown-divider"></div>
                 <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon text-danger">

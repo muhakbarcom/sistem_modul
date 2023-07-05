@@ -15,6 +15,9 @@
                                 <div class="wizard-step-label">
                                     Registration
                                 </div>
+                                <div id="step1Date">
+
+                                </div>
                             </div>
                             <div class="wizard-step" id="step_2">
                                 <div class="wizard-step-icon">
@@ -22,6 +25,9 @@
                                 </div>
                                 <div class="wizard-step-label">
                                     Administration
+                                </div>
+                                <div id="step2Date">
+
                                 </div>
                             </div>
                             <div class="wizard-step" id="step_3">
@@ -31,6 +37,9 @@
                                 <div class="wizard-step-label">
                                     Interview
                                 </div>
+                                <div id="step3Date">
+
+                                </div>
                             </div>
                             <div class="wizard-step" id="step_4">
                                 <div class="wizard-step-icon">
@@ -38,6 +47,9 @@
                                 </div>
                                 <div class="wizard-step-label">
                                     On Job
+                                </div>
+                                <div id="step4Date">
+
                                 </div>
                             </div>
                             <div class="wizard-step" id="step_5">
@@ -47,6 +59,9 @@
                                 <div class="wizard-step-label">
                                     Graduate
                                 </div>
+                                <div id="step5Date">
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -55,6 +70,23 @@
                 <div class="row mt-4">
                     <div class="col-12">
                         <h3>Internship Daily Timesheet / Kegiatan Harian Magang</h3>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 mb-4">
+                        <div class="hero align-items-center bg-warning text-white" id="secLaporanAkhir">
+                            <div class="hero-inner text-center">
+                                <h2>Unggah Laporan Akhir</h2>
+                                <p class="lead" id="msgLaporanAkhir">Anda telah mengisi seluruh laporan harian dan mingguan, tahap selanjutnya adalah mengunggah laporan akhir!</p>
+                                <div class="row mt-4 justify-content-center">
+                                    <div class="text-left text-dark font-weight-bold" id="laporanAkhirTimeline"></div>
+                                </div>
+                                <div class="mt-4">
+                                    <a id="btnUnggah" onclick="unggahLaporanAkhir()" class="btn btn-outline-white btn-lg btn-icon icon-left"><i class="fa fa-upload" aria-hidden="true"></i> Unggah</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -104,6 +136,10 @@
     var programData = <?php echo json_encode($dataProgram); ?>;
     var data_internship;
     var baseUrl = '<?php echo base_url(); ?>';
+    var data_step;
+    var data_laporan_akhir;
+    var data_laporan_mingguan;
+    var totalWeeks;
 
     $(document).ready(function() {
 
@@ -118,15 +154,230 @@
         const weeksArray = getWeeks(programStart, programEnd);
 
         weeksArray.reverse(); // Membalikkan urutan elemen dalam array
-
+        totalWeeks = weeksArray.length;
         setWeeks(weeksArray);
 
+        getInternshipProgramMahasiswaDetail();
+        var step0 = data_step.find(x => x.step == 0);
+        var step1 = data_step.find(x => x.step == 1);
+        var step2 = data_step.find(x => x.step == 2);
+        var step3 = data_step.find(x => x.step == 3);
+        var step4 = data_step.find(x => x.step == 4);
+
+
+        if (step0 != undefined) {
+            $('#step1Date').html(`<small>(${step0.created_at})</small>`);
+            console.log(step0.created_at);
+        }
+
+        if (step1 != undefined) {
+            $('#step2Date').html(`<small>(${step1.created_at})</small>`);
+        }
+
+        if (step2 != undefined) {
+            $('#step3Date').html(`<small>(${step2.created_at})</small>`);
+        }
+
+        if (step3 != undefined) {
+            $('#step4Date').html(`<small>(${step3.created_at})</small>`);
+        }
+
+        if (step4 != undefined) {
+            $('#step5Date').html(`<small>(${step4.created_at})</small>`);
+        }
+
+        $('#modalBootstrapSave').on('click', function() {
+            var modeInput = $('#modeInput').val();
+            var fileLaporanAkhir = $('#fileLaporanAkhir').prop('files')[0];
+            var id_program_mahasiswa = programData.id;
+
+            var formData = new FormData();
+            formData.append('fileLaporanAkhir', fileLaporanAkhir);
+            formData.append('id_program_mahasiswa', id_program_mahasiswa);
+
+            unggahLaporanAkhirAction(formData);
+        });
+
+        getLaporanMingguan();
+        getLaporanAkhir();
+
+
     });
+
+    function onGraduated() {
+        $.ajax({
+            url: baseUrl + 'internship_saya/onGraduate',
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            data: {
+                id_program_mahasiswa: programData.id
+            },
+            success: function(data) {
+                window.location.reload();
+
+            }
+        })
+    }
+
+    function getLaporanMingguan() {
+        $.ajax({
+            url: baseUrl + 'internship_saya/getDataLaporanMingguan',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            data: {
+                id_program_mahasiswa: programData.id
+            },
+            success: function(data) {
+                data_laporan_mingguan = data.data;
+
+                if (data_laporan_mingguan.length == totalWeeks) {
+                    $('#secLaporanAkhir').show();
+                } else {
+                    $('#secLaporanAkhir').hide();
+                }
+
+            }
+        })
+    }
+
+    function getLaporanAkhir() {
+        $.ajax({
+            url: baseUrl + 'internship_saya/getDataLaporanAkhir',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            data: {
+                id_program_mahasiswa: programData.id
+            },
+            success: function(data) {
+                data_laporan_akhir = data.data;
+                var laporanAkhirTimeline = $('#laporanAkhirTimeline');
+                var html = '<ol>';
+
+                // each data laporan akhir
+                $(data_laporan_akhir).each(function(index, value) {
+                    var komentar = '';
+                    if (value.status == 'DISETUJUI') {
+                        $('#btnUnggah').addClass('disabled');
+                        onGraduated();
+                    }
+
+                    if (value.status == 'REVIEW') {
+                        $('#btnUnggah').addClass('disabled');
+                    }
+
+                    if (value.status == 'DITOLAK') {
+                        $('#btnUnggah').removeClass('disabled');
+                        komentar = `| Komentar: ${value.komentar_mentor || '-'}`;
+                    }
+
+                    html += `
+                    <li>Laporan berhasil diunggah Tanggal: ${value.tanggal_pengumpulan} | Status: ${value.status} ${komentar}</li>
+                    `;
+                });
+                html += '</ol>';
+
+                laporanAkhirTimeline.html(html);
+
+            }
+        })
+
+    }
+
+    function unggahLaporanAkhir() {
+        var modalBootstrap = $('#modalBootstrap');
+        var modalTitle = $('#modalBootstrapTitle');
+        var modalBody = $('#modalBootstrapBody');
+        $('#modalBootstrapSave').show();
+        modalBootstrap.modal('show');
+
+        modalTitle.html('Unggah Laporan Akhir');
+        modalBody.html(`
+        <div class="row">
+            <div class="col-12">
+                <input type="file" id="fileLaporanAkhir" class="form-control">
+                <input type="hidden" id="modeInput" value="laporanAkhir">
+            </div>
+        </div>
+        `);
+    }
+
+    function unggahLaporanAkhirAction(data) {
+        $.ajax({
+            url: baseUrl + 'internship_saya/insertLaporanAkhir',
+            type: 'POST',
+            dataType: 'json',
+            data: data,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                if (data.status) {
+                    swal.fire({
+                        title: 'Berhasil',
+                        text: data.message,
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.value) {
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                    swal.fire({
+                        title: 'Gagal',
+                        text: data.message,
+                        icon: 'error'
+                    });
+                }
+            }
+        })
+    }
+
+    function IsThereWeeklyReport(data) {
+        var response = false;
+        $.ajax({
+            url: baseUrl + 'internship_saya/IsThereWeeklyReport',
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            data: {
+                id_program_mahasiswa: data.id_program_mahasiswa,
+                weekStart: data.weekStart,
+                weekEnd: data.weekEnd
+            },
+            success: function(data) {
+                if (data.status) {
+                    response = data.status;
+                } else {
+
+                }
+            }
+        })
+
+        return response;
+    }
 
 
     function setWeeks(weeksArray) {
         $('#laporan').html('');
+        var button = '';
         weeksArray.forEach((week, index) => {
+
+            var data = {
+                id_program_mahasiswa: programData.id,
+                weekStart: week.weekStart,
+                weekEnd: week.weekEnd
+            }
+
+            var isThereWeeklyReport = IsThereWeeklyReport(data);
+            // check is there weekly report
+            if (isThereWeeklyReport) {
+                button = `<a href="${baseUrl}/internship_saya/laporan/?id_program_mahasiswa=${programData.id}&id_program=${programData.id_program}&mingguKe=${week.mingguKe}&weekStart=${week.weekStart}&weekEnd=${week.weekEnd}" class="btn btn-success">Lihat Laporan</a>`;
+            } else {
+                button = `<a href="${baseUrl}/internship_saya/laporan/?id_program_mahasiswa=${programData.id}&id_program=${programData.id_program}&mingguKe=${week.mingguKe}&weekStart=${week.weekStart}&weekEnd=${week.weekEnd}" class="btn btn-primary">Lengkapi Laporan</a>`;
+            }
+
             $('#laporan').append(`
                 <div class="col-12">
                     <div class="row mt-3 mb-3 p-3 rounded shadow">
@@ -135,7 +386,7 @@
                                 <b>Minggu ke ${week.mingguKe} (${formatDate(week.weekStart)} - ${formatDate(week.weekEnd)})</b>
                             </div>
                             <div class="row justify-content-end">
-                                <a href="${baseUrl}/internship_saya/laporan/?id_program_mahasiswa=${programData.id}&id_program=${programData.id_program}&mingguKe=${week.mingguKe}&weekStart=${week.weekStart}&weekEnd=${week.weekEnd}" class="btn btn-primary">Lengkapi Laporan</a>
+                                ${button}
                             </div>
                             <div class="row">
                                 S S R K J
@@ -147,6 +398,20 @@
         });
     }
 
+    function getInternshipProgramMahasiswaDetail() {
+        $.ajax({
+            url: baseUrl + 'internship_program/getInternshipProgramMahasiswaDetail',
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            data: {
+                id_program_mahasiswa: programData.id
+            },
+            success: function(data) {
+                data_step = data;
+            }
+        })
+    }
 
     function stepActive($step) {
         switch ($step) {

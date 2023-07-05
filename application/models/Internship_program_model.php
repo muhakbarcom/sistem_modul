@@ -55,7 +55,26 @@ class Internship_program_model extends CI_Model
         );
 
         $this->db->insert('internship_program_mahasiswa', $data);
+
         return $this->db->insert_id();
+    }
+
+    function insertStepRegisterDefault($data) // step 1 pendaftaran
+    {
+        $dataDetail = array(
+            'id_program_mahasiswa' => $data['id'],
+            'step' => $data['step'],
+            'created_at' => date('Y-m-d H:i:s'),
+            'status' => $data['status']
+        );
+        $this->db->insert('internship_program_mahasiswa_detail', $dataDetail);
+        $id = $this->db->insert_id();
+
+        if ($id) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function insertStepRegister($data) // step 1 pendaftaran
@@ -107,6 +126,22 @@ class Internship_program_model extends CI_Model
         }
     }
 
+    function insertLaporanAkhir($data)
+    {
+        $dataDetail = array(
+            'id_program_mahasiswa' => $data['id'],
+            'file' => $data['file'],
+        );
+        $this->db->insert('laporan_akhir', $dataDetail);
+        $id = $this->db->insert_id();
+
+        if ($id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function insertStepInterview($data)
     {
         $dataDetail = array(
@@ -131,6 +166,47 @@ class Internship_program_model extends CI_Model
             return true;
         } else {
             return false;
+        }
+    }
+
+    function onGraduate($data)
+    {
+        $dataDetail = array(
+            'id_program_mahasiswa' => $data['id'],
+            'step' => $data['step'],
+            'created_at' => date('Y-m-d H:i:s'),
+            'status' => $data['status']
+        );
+        $this->db->insert('internship_program_mahasiswa_detail', $dataDetail);
+        $id = $this->db->insert_id();
+
+        if ($id) {
+            $this->db->where('id', $data["id"]);
+            $this->db->update('internship_program_mahasiswa', array('step' => $data['step']));
+
+            if ($this->db->affected_rows() > 0) {
+                return true; // Update berhasil
+            } else {
+                return false; // Update gagal
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function isGraduate($data)
+    {
+        $this->db->where('id_program_mahasiswa', $data);
+        $this->db->where('step', '4');
+        $this->db->from('internship_program_mahasiswa_detail');
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return true; // Update berhasil
+        } else {
+            return false; // Update gagal
         }
     }
 
@@ -169,18 +245,7 @@ class Internship_program_model extends CI_Model
         return $res;
     }
 
-    function getDataLaporanharian($id_program_mahasiswa = null)
-    {
-        $this->db->select('lh.*, m.nama, m.nim, p.program_name');
-        $this->db->from('laporan_harian lh');
-        $this->db->join('internship_program_mahasiswa m', 'lh.id_program_mahasiswa = m.id', 'inner');
-        $this->db->join('internship_program p', 'm.id_program = p.id_program', 'inner');
-        if ($id_program_mahasiswa != null) {
-            $this->db->where('lh.id_program_mahasiswa', $id_program_mahasiswa);
-        }
-        $this->db->order_by("lh.created_at", "desc");
-        return $this->db->get()->result();
-    }
+
 
     function isRegistered($id_program, $id_user)
     {
@@ -205,6 +270,25 @@ class Internship_program_model extends CI_Model
         $this->db->join('internship_role r', 'pr.id_i_role = r.id_internship_role', 'left');
         $this->db->from('internship_program_role pr');
 
+        return $this->db->get()->result();
+    }
+
+    function getInternshipProgramMahasiswaDetail($id)
+    {
+        $this->db->from('internship_program_mahasiswa_detail');
+        $this->db->where('id_program_mahasiswa', $id);
+        return $this->db->get()->result();
+    }
+
+    function getIntershipProgramMahasiswa($id)
+    {
+        $this->db->select('m.*,u.first_name,u.last_name,program.program_name,program.program_start,program.program_end');
+
+        $this->db->from('internship_program_mahasiswa m');
+        $this->db->join('User u', 'm.id_user = u.id', 'left');
+        $this->db->join('internship_program program', 'm.id_program = program.id_program', 'left');
+
+        $this->db->where('m.id', $id);
         return $this->db->get()->result();
     }
 
@@ -276,9 +360,36 @@ class Internship_program_model extends CI_Model
         return $this->db->delete($this->table);
     }
 
+    function getDataLaporanharian($id_program_mahasiswa = null)
+    {
+        $this->db->select('lh.*, m.nama, m.nim, p.program_name');
+        $this->db->from('laporan_harian lh');
+        $this->db->join('internship_program_mahasiswa m', 'lh.id_program_mahasiswa = m.id', 'inner');
+        $this->db->join('internship_program p', 'm.id_program = p.id_program', 'inner');
+        if ($id_program_mahasiswa != null) {
+            $this->db->where('lh.id_program_mahasiswa', $id_program_mahasiswa);
+        }
+        $this->db->order_by("lh.created_at", "desc");
+        return $this->db->get()->result();
+    }
+
     function getLaporanHarian($id)
     {
         $this->db->from('laporan_harian');
+        $this->db->where('id_program_mahasiswa', $id);
+        return $this->db->get()->result();
+    }
+
+    function getLaporanMingguan($id)
+    {
+        $this->db->from('laporan_mingguan');
+        $this->db->where('id_program_mahasiswa', $id);
+        return $this->db->get()->result();
+    }
+
+    function getLaporanAkhir($id)
+    {
+        $this->db->from('laporan_akhir');
         $this->db->where('id_program_mahasiswa', $id);
         return $this->db->get()->result();
     }
