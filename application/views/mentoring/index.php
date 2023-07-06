@@ -23,16 +23,13 @@
               <table class="table table-bordered table-striped" id="mytable" style="width:100%">
                 <thead>
                   <tr>
-                    <th width=""></th>
                     <th width="10px">No</th>
-                    <th>Role Name</th>
-                    <th>Role Description</th>
-                    <th>Image</th>
+                    <th>Program Name</th>
 
                     <th width="80px">Action</th>
                   </tr>
                 </thead>
-
+                <tbody></tbody>
 
               </table>
             </div>
@@ -45,6 +42,35 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function() {
-
+    show_data();
   });
+
+  function show_data() {
+    // ajax
+    $.ajax({
+      type: "ajax",
+      url: "<?= base_url('mentoring/getData'); ?>",
+      async: false,
+      dataType: "json",
+      success: function(data) {
+        var data = data.data;
+        var html = '';
+        var i;
+        var no = 1;
+        for (i = 0; i < data.length; i++) {
+          html += `<tr>
+            <td>${no++}</td>
+            <td>${data[i].program_name}</td>
+            <td><a class="btn btn-primary btn-sm" href="<?= base_url('mentoring/detail/'); ?>${data[i].id_program}"><i class="fa fa-eye"></i> Lihat Mentoring</a></td>
+            </tr>`;
+        }
+        $('#mytable > tbody').html(html);
+      }
+    });
+
+    $('#mytable').DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+  }
 </script>
