@@ -21,6 +21,17 @@ class Penilaian_model extends CI_Model
     $this->db->join('internship_program ip', 'ipm.id_program = ip.id_program', 'inner');
     $this->db->where('ipm.step', '4');
 
+    return $this->db->get()->result();
+  }
+
+  function get_all_mahasiswa($id_user = "")
+  {
+    $this->db->select('ipm.*,u.first_name,u.last_name,ip.program_name');
+    $this->db->from('internship_program_mahasiswa ipm');
+    $this->db->join('user u', 'ipm.id_user = u.id', 'inner');
+    $this->db->join('internship_program ip', 'ipm.id_program = ip.id_program', 'inner');
+    $this->db->where('ipm.step', '4');
+    $this->db->where('ipm.id_user', $id_user);
 
     return $this->db->get()->result();
   }

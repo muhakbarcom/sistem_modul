@@ -29,16 +29,17 @@
                         }
                     });
                     var button = '';
-
-                    if (isRegistered) {
-                        button = `<button disabled class="btn btn-primary">Anda Telah Terdaftar</button>
+                    <?php if ($this->ion_auth->in_group(13)) : ?>
+                        if (isRegistered) {
+                            button = `<button disabled class="btn btn-primary">Anda Telah Terdaftar</button>
                         <br>
                         <a target="_BLANK" href="<?= base_url('internship_saya/detail/'); ?>${id_program}"><small>Lihat Status Pendaftaran</small></a>
                         `;
-                    } else {
-                        button = `
+                        } else {
+                            button = `
                         <button class="btn btn-primary" onclick="register(${id_program})">Daftar</button>`;
-                    }
+                        }
+                    <?php endif; ?>
 
                     html += `
                     <div class="row">

@@ -344,6 +344,7 @@ $setting_aplikasi = $this->db->get('setting')->row();
 
   <!-- General JS Scripts -->
   <script src="<?= base_url('/assets/dist/js/'); ?>sweetalert2.all.min.js"></script>
+  <script src="<?= base_url('/stisla_assets/modules/sweetalert/'); ?>sweetalert.min.js"></script>
   <script src="<?php echo base_url(); ?>stisla_assets/modules/popper.js"></script>
   <script src="<?php echo base_url(); ?>stisla_assets/modules/tooltip.js"></script>
   <script src="<?php echo base_url(); ?>stisla_assets/modules/bootstrap/js/bootstrap.min.js"></script>
@@ -424,7 +425,7 @@ $setting_aplikasi = $this->db->get('setting')->row();
 
 
   window.addEventListener("load", function() {
-    Swal.hideLoading()
+    // Swal.hideLoading()
   });
 
   $('.formdate2').datepicker({

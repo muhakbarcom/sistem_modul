@@ -109,8 +109,8 @@ class Internship_role extends CI_Controller
                     $new_image = $this->upload->data('file_name');
                     $this->db->set('image', $new_image);
                 } else {
-                    $this->session->set_flashdata('success', $this->upload->display_errors());
-                    redirect('profile');
+                    $this->session->set_flashdata('error', $this->upload->display_errors());
+                    redirect('internship_role/create');
                 }
             }
 
@@ -145,6 +145,8 @@ class Internship_role extends CI_Controller
                 'Dashboard' => '',
             ];
 
+
+
             $data['page'] = 'internship_role/internship_role_form';
             $this->load->view($this->config->item('template') . 'template/backend', $data);
         } else {
@@ -164,6 +166,11 @@ class Internship_role extends CI_Controller
             $upload_image = $_FILES['image']['name'];
             $new_image = '';
 
+            $data = array(
+                'role_name' => $this->input->post('role_name', TRUE),
+                'role_description' => $this->input->post('role_description', TRUE),
+            );
+
             if ($upload_image) {
                 $config['upload_path'] = './assets/uploads/image/internship_role/';
                 $config['allowed_types'] = 'gif|jpg|png';
@@ -173,18 +180,14 @@ class Internship_role extends CI_Controller
 
                 if ($this->upload->do_upload('image')) {
 
-                    $new_image = $this->upload->data('file_name');
+                    $data['image'] = $this->upload->data('file_name');
                     $this->db->set('image', $new_image);
                 } else {
                     $this->session->set_flashdata('success', $this->upload->display_errors());
                     redirect('profile');
                 }
             }
-            $data = array(
-                'role_name' => $this->input->post('role_name', TRUE),
-                'role_description' => $this->input->post('role_description', TRUE),
-                'image' => $new_image,
-            );
+
 
             $this->Internship_role_model->update($id, $data);
             $this->session->set_flashdata('success', 'Update Record Success');
@@ -198,6 +201,10 @@ class Internship_role extends CI_Controller
 
         if ($row) {
             $this->Internship_role_model->delete($id);
+            // delete file
+            if ($row->image != null) {
+                unlink('./assets/uploads/image/internship_role/' . $row->image);
+            }
             $this->session->set_flashdata('success', 'Delete Record Success');
             redirect(site_url('internship_role'));
         } else {

@@ -43,7 +43,10 @@
 <script type="text/javascript">
   $(document).ready(function() {
     show_data();
+
   });
+
+
 
   function show_data() {
     // ajax

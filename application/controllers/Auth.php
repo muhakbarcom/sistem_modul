@@ -565,15 +565,15 @@ class Auth extends CI_Controller
 		// validate form input
 		$this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'trim|required');
 		$this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'trim|required');
-		$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'trim|required');
-		$this->form_validation->set_rules('email', $this->lang->line('edit_user_validation_email_label'), 'trim|required');
+		// $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'trim|required');
+		// $this->form_validation->set_rules('email', $this->lang->line('edit_user_validation_email_label'), 'trim|required');
 		// $this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'trim|required');
 
 		if (isset($_POST) && !empty($_POST)) {
 			// do we have a valid request?
-			if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
-				show_error($this->lang->line('error_csrf'));
-			}
+			// if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
+			// 	show_error($this->lang->line('error_csrf'));
+			// }
 
 			// update the password if it was posted
 			if ($this->input->post('password')) {

@@ -19,8 +19,13 @@ class Penilaian extends CI_Controller
     $data['crumb'] = [
       'Penilaian' => '',
     ];
-
-    $data['data'] = $this->Penilaian_model->get_all();
+    if ($this->ion_auth->in_group(13)) {
+      $id_user = $this->ion_auth->user()->row()->id;
+      $data['data'] = $this->Penilaian_model->get_all_mahasiswa($id_user);
+    } else {
+      $id_user = "";
+      $data['data'] = $this->Penilaian_model->get_all();
+    }
     // print_r($data['data']);
     // die;
     $data['page'] = 'Penilaian/index';

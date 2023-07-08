@@ -25,7 +25,13 @@
                     <th>Nama Mahasiswa</th>
                     <th>Tanggal Pendaftaran</th>
                     <th>Nilai Akhir</th>
-                    <th>Action</th>
+                    <?php
+                    if (!$this->ion_auth->in_group(13)) {
+                    ?>
+                      <th>Action</th>
+                    <?php
+                    }
+                    ?>
                   </tr>
                 </thead>
                 <tbody>
@@ -38,11 +44,17 @@
                       <td><?= $d->program_name; ?></td>
                       <td><?= $d->first_name . ' ' . $d->last_name; ?></td>
                       <td><?= $d->created_at; ?></td>
-                      <td><input type="text" class="form-control" id="nilai_<?= $d->id; ?>" value="<?= $d->nilai_akhir; ?>" style="width:150px" onkeypress="unDisabledButton(<?= $d->id; ?>)"></td>
-                      <td>
-                        <button id="btnSave_<?= $d->id; ?>" onclick="simpanNilai(<?= $d->id; ?>)" class="btn btn-primary btn-sm" disabled><i class="fa fa-save" aria-hidden="true"> Simpan</i>
-                        </button>
-                      </td>
+                      <td><input type="number" min="0" max="100" class="form-control" id="nilai_<?= $d->id; ?>" value="<?= $d->nilai_akhir; ?>" style="width:150px" onkeyup="unDisabledButton(<?= $d->id; ?>)" onkeypress="unDisabledButton(<?= $d->id; ?>)" <?= ($this->ion_auth->in_group(13) ? "readonly" : ""); ?>></td>
+                      <?php
+                      if (!$this->ion_auth->in_group(13)) {
+                      ?>
+                        <td>
+                          <button id="btnSave_<?= $d->id; ?>" onclick="simpanNilai(<?= $d->id; ?>)" class="btn btn-primary btn-sm" disabled><i class="fa fa-save" aria-hidden="true"> Simpan</i>
+                          </button>
+                        </td>
+                      <?php
+                      }
+                      ?>
                     </tr>
                   <?php
                   }

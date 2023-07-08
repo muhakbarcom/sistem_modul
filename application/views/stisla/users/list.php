@@ -35,7 +35,7 @@
                   <th><?php echo lang('index_lname_th'); ?></th>
                   <th><?php echo lang('index_email_th'); ?></th>
                   <th nowrap="nowrap">Roles</th>
-                  <th><?php echo lang('index_status_th'); ?></th>
+                  <th class="d-none"><?php echo lang('index_status_th'); ?></th>
                   <th><?php echo lang('index_action_th'); ?></th>
                 </tr>
               </thead>
@@ -53,7 +53,7 @@
                       <?= implode(', ', $myArray); ?>
 
                     </td>
-                    <td><?php echo ($user->active) ? anchor("auth/deactivate/" . $user->id, lang('index_active_link'), 'class="btn btn-success btn-xs"') : anchor("auth/activate/" . $user->id, lang('index_inactive_link'), 'class="btn btn-danger  btn-xs"'); ?></td>
+                    <td class="d-none"><?php echo ($user->active) ? anchor("auth/deactivate/" . $user->id, lang('index_active_link'), 'class="btn btn-success btn-xs"') : anchor("auth/activate/" . $user->id, lang('index_inactive_link'), 'class="btn btn-danger  btn-xs"'); ?></td>
                     <td><?php echo anchor("users/read/" . $user->id, '<i class="fa fa-search-plus"></i>', 'class="btn btn-primary btn-xs" data-toogle="tooltip" title="Detail User"');
                         echo " ";
                         echo anchor("auth/edit_user/" . $user->id, '<i class="fa fa-user-edit"></i>', 'class="btn btn-warning btn-xs" data-toogle="tooltip" title="Edit User"');
