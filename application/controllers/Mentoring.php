@@ -64,13 +64,20 @@ class Mentoring extends CI_Controller
   {
     $mentoring_id = $this->input->post('mentoring_id');
     $deskripsi = $this->input->post('deskripsi');
-    $file = $_FILES['file'];
+    $fileUploaded = isset($_FILES['file']) && !empty($_FILES['file']);
     $user_id = $this->ion_auth->user()->row()->id;
-    // $id_program = $this->input->post('id_program');
 
-    if ($file) {
-      $file = $_FILES['file']['name'];
-      $config['allowed_types'] = 'pdf|doc|docx|xls|xlsx|ppt|pptx|jpg|jpeg|png|gif';
+    if ($deskripsi == '') {
+      $response_json = [
+        'status' => false,
+        'message' => 'Deskripsi tidak boleh kosong',
+      ];
+      echo json_encode($response_json);
+      return;
+    }
+
+    if ($fileUploaded) {
+      $config['allowed_types'] = 'pdf|doc|docx|ppt|pptx|xls|xlsx|zip|rar|jpg|jpeg|png';
       $config['max_size'] = '2048'; // kb
       $config['upload_path'] = './assets/uploads/data/materi/';
 
@@ -78,6 +85,7 @@ class Mentoring extends CI_Controller
 
       if ($this->upload->do_upload('file')) {
         $new_file = $this->upload->data('file_name');
+
         $this->db->set('file', $new_file);
         $data = [
           'mentoring_id' => $mentoring_id,
@@ -107,7 +115,6 @@ class Mentoring extends CI_Controller
     $response_json = [
       'status' => $status,
       'message' => $msg,
-      'param' => $data,
     ];
 
     echo json_encode($response_json);

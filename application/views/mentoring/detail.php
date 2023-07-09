@@ -45,6 +45,15 @@
     $('#materi_submit').on('click', function() {
       onsubmit();
     })
+
+    // Mendengarkan peristiwa pemilihan file
+    $('#materi_file').on('change', function() {
+      // Mendapatkan nama file yang dipilih
+      var fileName = $(this).val().split('\\').pop();
+
+      // Mengubah teks pada label dengan nama file yang dipilih
+      $(this).next('.custom-file-label').html(fileName);
+    });
   });
 
   function onsubmit() {
@@ -66,6 +75,9 @@
       dataType: "json",
       success: function(response) {
         if (response.status == true) {
+          $('#materi_teks').val('');
+          $('#materi_file').val('');
+          $('#materi_file').next('.custom-file-label').html('<i class="fas fa-file"></i> Choose file...');
           load_materi();
         } else {
           swal("Gagal", response.message, "error");
