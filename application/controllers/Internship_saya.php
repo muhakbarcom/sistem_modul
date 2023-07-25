@@ -35,7 +35,10 @@ class Internship_saya extends CI_Controller
         ];
         $id_user = $this->ion_auth->user()->row()->id;
         $dataProgram = $this->Internship_program_model->getAllByIdUser($id_user, $id_program)[0];
+        $stepStatus = $this->Internship_program_model->getStepStatus($dataProgram->id);
         $data['dataProgram'] = $dataProgram;
+        $data['stepStatus'] = $stepStatus->status;
+
         switch ($dataProgram->step) {
             case 0:
                 $data['page'] = 'internship_saya/1_registration';
@@ -55,6 +58,12 @@ class Internship_saya extends CI_Controller
             default:
                 $data['page'] = 'internship_saya/index';
                 break;
+        }
+
+
+        if ($stepStatus->step === '3' && $stepStatus->status !== '2') {
+            $data['page'] = 'internship_saya/3_interview';
+            // $data['dataProgram']->step = '2';
         }
 
         $this->load->view($this->config->item('template') . 'template/backend', $data);

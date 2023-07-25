@@ -45,6 +45,14 @@ class Internship_program_model extends CI_Model
         return $this->db->get()->result();
     }
 
+    function getStepStatus($id)
+    {
+        $this->db->from('internship_program_mahasiswa_detail d');
+        $this->db->where('d.id_program_mahasiswa', $id);
+        $this->db->order_by("d.id", $this->order);
+        return $this->db->get()->row();
+    }
+
     function register($id_program, $user)
     {
         $data = array(

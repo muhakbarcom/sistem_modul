@@ -98,6 +98,7 @@
 
 <script>
     var programData = <?php echo json_encode($dataProgram); ?>;
+    var stepStatus = <?php echo json_encode($stepStatus); ?>;
     var data_internship;
     var data_step;
     var baseUrl = `<?= base_url(); ?>`;
@@ -122,7 +123,20 @@
 
         $('#headerProgramName').html(`<h4>Program : ${programData.program_name} (${formatDate(programData.program_start)} - ${formatDate(programData.program_end)})</h4>`);
 
-        stepActive(programData.step);
+        var step = programData.step;
+
+        if (programData.step == 3) {
+            if (stepStatus == 1) {
+                step = '2';
+                $('.wizard-content').html('<h2 class="bg-warning p-3 text-center text-light">Pendaftaran anda sedang direview!</h2>')
+            }
+            if (stepStatus == 0) {
+                step = '2';
+                $('.wizard-content').html('<h2 class="bg-danger p-3 text-center text-light">Pendaftaran anda sedang ditolak!</h2>')
+            }
+        }
+
+        stepActive(step);
 
 
 
@@ -190,7 +204,12 @@
         }
 
         if (step3 != undefined) {
-            $('#step4Date').html(`<small>(${step3.created_at})</small>`);
+            if (programData.step == 3) {
+                if (stepStatus != 1) {
+                    $('#step4Date').html(`<small>(${step3.created_at})</small>`);
+                }
+            }
+
         }
 
         if (step4 != undefined) {
