@@ -18,7 +18,7 @@ class Review_peserta_model extends CI_Model
     // datatables
     function json()
     {
-        $this->datatables->select("ip.id_program, ip.program_name, concat(u.first_name,' ',u.last_name) as name , ir.role_name, ipm.id as id_ipm, (SELECT step from internship_program_mahasiswa_detail where id_program_mahasiswa = ipm.id ORDER BY id DESC limit 1) as step,
+        $this->datatables->select("ip.id_program, ipm.cv,ipm.link_interview,ip.program_name, concat(u.first_name,' ',u.last_name) as name , ir.role_name, ipm.id as id_ipm, (SELECT step from internship_program_mahasiswa_detail where id_program_mahasiswa = ipm.id ORDER BY id DESC limit 1) as step,
         (SELECT status from internship_program_mahasiswa_detail where id_program_mahasiswa = ipm.id ORDER BY id DESC limit 1) as status");
         $this->datatables->from('internship_program ip');
         $this->datatables->join('internship_program_mahasiswa ipm', 'ip.id_program = ipm.id_program', 'left');

@@ -31,6 +31,8 @@
                                     <th>Program Name</th>
                                     <th>Nama Peserta</th>
                                     <th>Role</th>
+                                    <th>Interview</th>
+                                    <th>CV</th>
                                     <th>Step</th>
                                     <th>Status</th>
 
@@ -78,6 +80,7 @@
             scrollCollapse: true,
             processing: true,
             serverSide: true,
+            searching: false,
             ajax: {
                 "url": "review_peserta/json",
                 "type": "POST"
@@ -103,29 +106,62 @@
                 },
                 {
                     'render': function(data, type, row) {
+                        var link_interview = row.link_interview;
+
+                        if (link_interview != null) {
+                            return `<a href="${link_interview}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> </a>`;
+                        } else {
+                            return `<a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-eye"></i> </a>`;
+                        }
+
+                    },
+                    orderable: false,
+                    className: "text-center"
+
+                },
+                {
+                    'render': function(data, type, row) {
+                        var cv = row.cv;
+
+                        if (cv != null) {
+                            return `<a href="<?= base_url('assets/uploads/data/cv/'); ?>${cv}" target="_blank" class="btn btn-info btn-sm"><i class="fa fa-eye"></i> </a>`;
+                        } else {
+                            return `<a href="#" class="btn btn-info btn-sm disabled"><i class="fa fa-eye"></i> </a>`;
+                        }
+
+                    },
+                    orderable: false,
+                    className: "text-center"
+                },
+                {
+                    'render': function(data, type, row) {
                         var step = row.step;
                         var text = '';
-                        switch (step) {
-                            case '0':
-                                text = 'Registration';
-                                return '<span class="badge badge-secondary">' + step + '</span> <span class="badge badge-secondary">' + text + '</span>';
-                                break;
-                            case '1':
-                                text = 'Administration';
-                                return '<span class="badge badge-info">' + step + '</span> <span class="badge badge-info">' + text + '</span>';
-                                break;
-                            case '2':
-                                text = 'Interview';
-                                return '<span class="badge badge-primary">' + step + '</span> <span class="badge badge-primary">' + text + '</span>';
-                                break;
-                            case '3':
-                                text = 'On Job';
-                                return '<span class="badge badge-warning">' + step + '</span> <span class="badge badge-warning">' + text + '</span>';
-                                break;
-                            case '4':
-                                text = 'Graduation';
-                                return '<span class="badge badge-success">' + step + '</span> <span class="badge badge-success">' + text + '</span>';
-                                break;
+                        if (step != null) {
+                            switch (step) {
+                                case '0':
+                                    text = 'Registration';
+                                    return '<span class="badge badge-secondary">' + step + '</span> <span class="badge badge-secondary">' + text + '</span>';
+                                    break;
+                                case '1':
+                                    text = 'Administration';
+                                    return '<span class="badge badge-info">' + step + '</span> <span class="badge badge-info">' + text + '</span>';
+                                    break;
+                                case '2':
+                                    text = 'Interview';
+                                    return '<span class="badge badge-primary">' + step + '</span> <span class="badge badge-primary">' + text + '</span>';
+                                    break;
+                                case '3':
+                                    text = 'On Job';
+                                    return '<span class="badge badge-warning">' + step + '</span> <span class="badge badge-warning">' + text + '</span>';
+                                    break;
+                                case '4':
+                                    text = 'Graduation';
+                                    return '<span class="badge badge-success">' + step + '</span> <span class="badge badge-success">' + text + '</span>';
+                                    break;
+                            }
+                        } else {
+                            return '';
                         }
 
 
@@ -136,19 +172,23 @@
                     'render': function(data, type, row) {
                         var status = row.status;
                         var text = '';
-                        switch (status) {
-                            case '0':
-                                text = 'Ditolak';
-                                return '<span class="badge badge-danger">' + text + '</span>';
-                                break;
-                            case '1':
-                                text = 'Belum Dikonfirmasi';
-                                return '<span class="badge badge-info">' + text + '</span>';
-                                break;
-                            case '2':
-                                text = 'Diterima';
-                                return '<span class="badge badge-success">' + text + '</span>';
-                                break;
+                        if (status != null) {
+                            switch (status) {
+                                case '0':
+                                    text = 'Ditolak';
+                                    return '<span class="badge badge-danger">' + text + '</span>';
+                                    break;
+                                case '1':
+                                    text = 'Belum Dikonfirmasi';
+                                    return '<span class="badge badge-info">' + text + '</span>';
+                                    break;
+                                case '2':
+                                    text = 'Diterima';
+                                    return '<span class="badge badge-success">' + text + '</span>';
+                                    break;
+                            }
+                        } else {
+                            return '';
                         }
 
 
