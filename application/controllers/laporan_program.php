@@ -23,6 +23,7 @@ class laporan_program extends CI_Controller
 
         $data['page'] = 'laporan_program/laporan_program_list';
         $this->load->view($this->config->item('template') . 'template/backend', $data);
+        // redirect('404');
     }
 
     public function json()
