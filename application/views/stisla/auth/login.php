@@ -90,10 +90,10 @@ $setting_aplikasi = $this->db->get('setting')->row();
                 <button class="btn btn-primary float-right" type="submit">Login</button>
               </div>
               <?php echo form_close(); ?>
-              <div class="divider">
+              <div class="divider  d-none">
                 <div class="divider-text">OR</div>
               </div>
-              <div class="row">
+              <div class="row d-none">
                 <div class="col-sm-6">
                   <a href="<?= base_url(); ?>" class="btn btn-block mb-2 btn-warning">Back to Home</a>
                 </div>

@@ -70,7 +70,7 @@ $setting_aplikasi = $this->db->get('setting')->row();
 <body class="layout-3">
   <div id="app">
     <div class="main-wrapper container">
-      <div class="navbar-bg bg-success" style="height: 80px;"></div>
+      <div class="navbar-bg bg-primary" style="height: 80px;"></div>
       <nav class="navbar navbar-expand-lg main-navbar" style="top: 0;">
         <a href="<?= base_url(); ?>" class="navbar-brand sidebar-gone-hide">
           <img src="<?= base_url('assets/uploads/image/logo/') . $setting_aplikasi->kode; ?>" alt="" class="img-thumbnail" style="height:50px">
@@ -82,8 +82,8 @@ $setting_aplikasi = $this->db->get('setting')->row();
           </a>
           <ul class="navbar-nav">
             <li class="nav-item active"><a href="<?= base_url(); ?>" class="nav-link">Home</a></li>
-            <li class="nav-item"><a href="<?= base_url('internship_role'); ?>" class="nav-link">Internship Role</a></li>
-            <li class="nav-item"><a href="<?= base_url('program'); ?>" class="nav-link">Internship Program</a></li>
+            <!-- <li class="nav-item"><a href="<?= base_url('internship_role'); ?>" class="nav-link">Internship Role</a></li> -->
+            <!-- <li class="nav-item"><a href="<?= base_url('program'); ?>" class="nav-link">Internship Program</a></li> -->
           </ul>
         </div>
         <form class="form-inline ml-auto">
@@ -279,20 +279,16 @@ $setting_aplikasi = $this->db->get('setting')->row();
           <div class="col-md-4">
             <div class="row">
               <div class="col-12">
-                <b>Telkom Direktorat Digital Business Bandung</b>
+                <b>Manajemen Informatika</b>
               </div>
               <div class="col-12">
-                Jl. Gegerkalong Hilir No.47
-                Kota Bandung, Jawa Barat 40152
-                (022) 4571050
+                Jl. Sari Asih No.54, Kota Bandung, Jawa Barat 40151
               </div>
               <div class="col-12 mt-3">
-                <b>Telkom Direktorat Digital Business Jakarta</b>
+                <b>Gedung Rektorat</b>
               </div>
               <div class="col-12">
-                Menara Multimedia lt 15
-                Jl. Kebon Sirih No.12 Jakarta Pusat 10110
-                (022) 3860500
+
               </div>
             </div>
           </div>
@@ -302,17 +298,9 @@ $setting_aplikasi = $this->db->get('setting')->row();
                 <b>Follow Our Social Media</b>
               </div>
               <div class="col-12">
-                <a target="_BLANK" href="https://instagram.com/internship_ddbtelkom?igshid=1fabxbyc1nbhj">internship_ddbtelkom</a>
+                <a target="_BLANK" href="#">Ulbiofficial</a>
               </div>
-              <div class="col-12">
-                <a target="_BLANK" href="https://m.youtube.com/channel/UCWkKD0cXXqG7spiJztMgDZg">Internship DDB Telkom</a>
-              </div>
-              <div class="col-12">
-                <a target="_BLANK" href="https://wa.me/6281120000981?text=Halo+KakMin,+Saya+mau+bertanya+tentang+Digistar+Internship+DDB+Telkom">+6281120000981</a>
-              </div>
-              <div class="col-12">
-                <a target="_BLANK" href="@mailto:internship.ddbtelkom@telkom.co.id">internship.ddbtelkom@telkom.co.id</a>
-              </div>
+
             </div>
           </div>
           <div class="col-md-4">
@@ -323,8 +311,8 @@ $setting_aplikasi = $this->db->get('setting')->row();
               <div class="col-12">
                 <img src="<?= base_url('assets/img/footer/bumn.png'); ?>" alt="">
               </div>
-              <div class="col-12">
-                <img src="<?= base_url('assets/img/footer/telkom.png'); ?>" alt="">
+              <div class="col-12 mt-3">
+                <img width="150px" src="<?= base_url('assets/img/footer/telkom.png'); ?>" alt="">
               </div>
             </div>
           </div>
