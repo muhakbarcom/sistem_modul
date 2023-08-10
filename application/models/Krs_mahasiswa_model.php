@@ -18,14 +18,53 @@ class Krs_mahasiswa_model extends CI_Model
     // datatables
     function json()
     {
+
         $this->datatables->select('u.*,km.id as id_krs');
-        $this->datatables->from('user u');
-        $this->datatables->join('users_groups ug', 'u.id = ug.user_id');
-        $this->datatables->join('krs_mahasiswa km', 'u.id = km.id_mahasiswa', 'left');
-        $this->datatables->where('ug.group_id', 13);
+        $this->datatables->from('matakuliah u');
+        $this->datatables->join('krs_mahasiswa km', 'u.id = km.id_matakuliah', 'left');
+        $this->datatables->group_by('u.id');
 
         //add this line for join
         return $this->datatables->generate();
+    }
+
+    function get_all_mahasiswa($id_matakuliah)
+    {
+        $this->db->select('u.*,km.id as id_krs');
+        $this->db->from('user u');
+        $this->db->join('users_groups ug', 'u.id = ug.user_id');
+        $this->db->join('krs_mahasiswa km', 'u.id = km.id_mahasiswa', 'left');
+        $this->db->where('ug.group_id', 13);
+        // $this->db->where('km.id', $id_matakuliah);
+        return $this->db->get()->result();
+    }
+
+    function assignMatakuliah($id_matakuliah, $id_mahasiswa)
+    {
+        $this->db->where('id_matakuliah', $id_matakuliah);
+        $this->db->where('id_mahasiswa', $id_mahasiswa);
+        $data = $this->db->get('krs_mahasiswa')->row();
+        if ($data) {
+            $this->db->where('id_matakuliah', $id_matakuliah);
+            $this->db->where('id_mahasiswa', $id_mahasiswa);
+            $this->db->delete('krs_mahasiswa');
+            $result = [
+                'status' => 'delete',
+                'message' => 'Data berhasil dihapus',
+                'true' => true
+            ];
+        } else {
+            $this->db->insert('krs_mahasiswa', [
+                'id_matakuliah' => $id_matakuliah,
+                'id_mahasiswa' => $id_mahasiswa,
+            ]);
+            $result = [
+                'status' => 'insert',
+                'message' => 'Data berhasil ditambahkan',
+                'true' => true
+            ];
+        }
+        return $result;
     }
 
     // get all

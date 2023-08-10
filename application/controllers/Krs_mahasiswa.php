@@ -34,6 +34,21 @@ class Krs_mahasiswa extends CI_Controller
         echo $this->Krs_mahasiswa_model->json();
     }
 
+    function get_all_mahasiswa()
+    {
+        $id_matakuliah = $this->input->post('id_matakuliah');
+        $data = $this->Krs_mahasiswa_model->get_all_mahasiswa($id_matakuliah);
+        echo json_encode($data);
+    }
+
+    function assignMatakuliah()
+    {
+        $id_matakuliah = $this->input->post('id_matakuliah');
+        $id_mahasiswa = $this->input->post('id_mahasiswa');
+        $data = $this->Krs_mahasiswa_model->assignMatakuliah($id_matakuliah, $id_mahasiswa);
+        echo json_encode($data);
+    }
+
     public function read($id)
     {
         $row = $this->Krs_mahasiswa_model->get_by_id($id);
