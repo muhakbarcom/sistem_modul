@@ -42,6 +42,8 @@ class Matakuliah extends CI_Controller
         echo json_encode($users);
     }
 
+
+
     public function read($id)
     {
         $row = $this->Matakuliah_model->get_by_id($id);

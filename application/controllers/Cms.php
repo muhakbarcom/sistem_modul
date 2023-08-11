@@ -7,9 +7,9 @@ class Cms extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->layout->auth();
+        // $this->layout->auth();
         $c_url = $this->router->fetch_class();
-        $this->layout->auth_privilege($c_url);
+        // $this->layout->auth_privilege($c_url);
     }
 
     public function index()
@@ -29,8 +29,8 @@ class Cms extends CI_Controller
         $type = urldecode(str_replace('-', ' ', $type));
         $template_data['admin_menu'] = $this->get_menu($type);
 
-        $this->layout->set_privilege(1);
-        $this->layout->auth();
+        // $this->layout->set_privilege(1);
+        // $this->layout->auth();
 
         $template_data['title'] = 'Menu';
         $template_data['subtitle'] = 'Menu';

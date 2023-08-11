@@ -15,6 +15,29 @@ class Matakuliah_model extends CI_Model
         parent::__construct();
     }
 
+    function get_by_id_dosen($id_dosen)
+    {
+        $this->db->where('id_dosen', $id_dosen);
+        $this->db->order_by('nama_matakuliah', 'ASC');
+        return $this->db->get('matakuliah')->result();
+    }
+
+    function get_laporan()
+    {
+        $this->db->order_by('nama_matakuliah', 'ASC');
+        return $this->db->get('matakuliah')->result();
+    }
+
+    function get_by_id_mahasiswa($id_mahasiswa)
+    {
+        $this->db->select('m.*');
+        $this->db->from('matakuliah m');
+        $this->db->join('krs_mahasiswa km', 'm.id = km.id_matakuliah');
+        $this->db->where('id_mahasiswa', $id_mahasiswa);
+        $this->db->order_by('m.nama_matakuliah', 'ASC');
+        return $this->db->get()->result();
+    }
+
     // datatables
     function json()
     {

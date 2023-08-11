@@ -30,13 +30,20 @@ class Krs_mahasiswa_model extends CI_Model
 
     function get_all_mahasiswa($id_matakuliah)
     {
-        $this->db->select('u.*,km.id as id_krs');
-        $this->db->from('user u');
-        $this->db->join('users_groups ug', 'u.id = ug.user_id');
-        $this->db->join('krs_mahasiswa km', 'u.id = km.id_mahasiswa', 'left');
-        $this->db->where('ug.group_id', 13);
-        // $this->db->where('km.id', $id_matakuliah);
-        return $this->db->get()->result();
+        $query1 = "SELECT u.*, km.id AS id_krs FROM user u
+               LEFT JOIN users_groups ug ON u.id = ug.user_id
+               LEFT JOIN krs_mahasiswa km ON u.id = km.id_mahasiswa
+               WHERE ug.group_id = 13 AND km.id_matakuliah = $id_matakuliah";
+
+        $query2 = "SELECT u.*, NULL AS id_krs FROM user u
+               LEFT JOIN users_groups ug ON u.id = ug.user_id
+               WHERE ug.group_id = 13 AND u.id NOT IN (
+                   SELECT id_mahasiswa FROM krs_mahasiswa WHERE id_matakuliah = $id_matakuliah
+               )";
+
+        $final_query = "($query1) UNION ($query2)";
+
+        return $this->db->query($final_query)->result();
     }
 
     function assignMatakuliah($id_matakuliah, $id_mahasiswa)

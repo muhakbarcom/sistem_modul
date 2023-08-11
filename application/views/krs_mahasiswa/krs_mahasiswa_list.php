@@ -83,12 +83,14 @@
                 }, {
                     render: function(data, type, row) {
                         return `[${row.kode_matakuliah}] ${row.nama_matakuliah}`;
-                    }
+                    },
+                    "name": "nama_matakuliah"
                 },
                 {
                     render: function(data, type, row) {
                         return `<button type="button" onclick="setMatkul(${row.id},${row.id_krs})" class="btn btn-sm btn-primary">Assign Mahasiswa</button>`;
-                    }
+                    },
+                    "name": "id_krs"
                 }
             ],
             columnDefs: [{
@@ -220,7 +222,8 @@
                 }, {
                     render: function(data, type, row) {
                         return row.first_name + ' ' + row.last_name;
-                    }
+                    },
+                    name: 'u.first_name'
                 },
                 {
                     render: function(data, type, row) {
@@ -231,6 +234,7 @@
                             return `<input type="checkbox" onclick="assignMahasiswa(${row.id})">`;
                         }
                     },
+                    "name": "u.id",
                     "orderable": false,
                     "className": "text-center"
                 }

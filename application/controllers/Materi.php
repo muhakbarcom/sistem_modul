@@ -16,6 +16,52 @@ class Materi extends CI_Controller
         $this->load->library('datatables');
     }
 
+    function addMateri()
+    {
+        $nomor_pertemuan = $this->input->post('nomor_pertemuan');
+        $id_matakuliah = $this->input->post('id_matakuliah');
+        $fileUploaded = isset($_FILES['file_materi']) && !empty($_FILES['file_materi']);
+
+        if ($fileUploaded) {
+            $config['allowed_types'] = 'pdf|doc|docx|ppt|pptx|xls|xlsx|zip|rar|jpg|jpeg|png';
+            $config['max_size'] = '2048'; // kb
+            $config['upload_path'] = './assets/uploads/data/materi/';
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('file_materi')) {
+                $new_file = $this->upload->data('file_name');
+
+                $data = [
+                    'nomor_pertemuan' => $nomor_pertemuan,
+                    'file_materi' => $new_file,
+                    'id_matakuliah' => $id_matakuliah
+                ];
+
+                $res = $this->db->insert('materi', $data);
+                $msg = 'Data berhasil ditambahkan';
+                $status = $res ? true : false;
+            } else {
+                $msg = $this->upload->display_errors();
+                $status = false;
+            }
+        } else {
+            $data = [
+                'nomor_pertemuan' => $nomor_pertemuan
+            ];
+
+            $status = false;
+            $msg = 'Data gagal ditambahkan, file tidak boleh kosong';
+        }
+
+        $response_json = [
+            'status' => $status,
+            'message' => $msg,
+        ];
+
+        echo json_encode($response_json);
+    }
+
     public function index()
     {
         $data['title'] = 'Materi';
@@ -34,29 +80,63 @@ class Materi extends CI_Controller
         echo $this->Materi_model->json();
     }
 
-    public function read($id)
+    function get_by_id_dosen()
     {
-        $row = $this->Materi_model->get_by_id($id);
-        if ($row) {
-            $data = array(
+        $this->load->model('Matakuliah_model');
+
+        $id = $this->session->userdata('user_id');
+
+        if ($this->ion_auth->in_group(14)) {
+            $data = $this->Matakuliah_model->get_by_id_dosen($id);
+        } else {
+            $data = $this->Matakuliah_model->get_by_id_mahasiswa($id);
+        }
+
+        echo json_encode($data);
+    }
+
+    public function detail_materi($id)
+    {
+        $data['title'] = 'Materi';
+        $data['subtitle'] = '';
+        $data['crumb'] = [
+            'Materi' => '',
+        ];
+
+        // Mendapatkan data materi dari model berdasarkan ID
+        $rows = $this->Materi_model->get_by_id($id);
+
+        // Inisialisasi array untuk mengelompokkan data berdasarkan nomor_pertemuan
+        $groupedData = array();
+
+        // Looping untuk mengelompokkan data
+        foreach ($rows as $row) {
+            $nomor_pertemuan = $row->nomor_pertemuan;
+
+            // Jika nomor_pertemuan belum ada dalam array, buat entri baru
+            if (!isset($groupedData[$nomor_pertemuan])) {
+                $groupedData[$nomor_pertemuan] = array(
+                    'nomor_pertemuan' => $nomor_pertemuan,
+                    'file_materi' => array()
+                );
+            }
+
+            // Tambahkan data file_materi ke dalam array
+            $groupedData[$nomor_pertemuan]['file_materi'][] = array(
                 'id' => $row->id,
                 'file_materi' => $row->file_materi,
-                'nomor_pertemuan' => $row->nomor_pertemuan,
-                'id_matakuliah' => $row->id_matakuliah,
-                'tanggal_upload' => $row->tanggal_upload,
+                'tanggal_upload' => $row->tanggal_upload
             );
-            $data['title'] = 'Materi';
-            $data['subtitle'] = '';
-            $data['crumb'] = [
-                'Dashboard' => '',
-            ];
-
-            $data['page'] = 'materi/materi_read';
-            $this->load->view($this->config->item('template') . 'template/backend', $data);
-        } else {
-            $this->session->set_flashdata('error', 'Record Not Found');
-            redirect(site_url('materi'));
         }
+
+        // Set data yang sudah diolah ke dalam data untuk tampilan
+        $data['data'] = $groupedData;
+        // print_r($data['data']);
+        // die;
+
+        $data['id_matakuliah'] = $id;
+        $data['page'] = 'materi/materi_read';
+        $this->load->view($this->config->item('template') . 'template/backend', $data);
     }
 
     public function create()
@@ -148,17 +228,17 @@ class Materi extends CI_Controller
         }
     }
 
-    public function delete($id)
+    public function delete($id, $id_matakuliah = null)
     {
-        $row = $this->Materi_model->get_by_id($id);
+        $row = $this->Materi_model->get_by_id_delete($id);
 
         if ($row) {
             $this->Materi_model->delete($id);
             $this->session->set_flashdata('success', 'Delete Record Success');
-            redirect(site_url('materi'));
+            redirect(site_url('materi/detail_materi/' . $id_matakuliah));
         } else {
             $this->session->set_flashdata('error', 'Record Not Found');
-            redirect(site_url('materi'));
+            redirect(site_url('materi/detail_materi/' . $id_matakuliah));
         }
     }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2023 at 04:11 PM
+-- Generation Time: Aug 11, 2023 at 05:47 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -76,17 +76,10 @@ INSERT INTO `groups_menu` (`id_groups`, `id_menu`) VALUES
 (8, 107),
 (1, 40),
 (8, 40),
-(1, 8),
-(8, 8),
-(1, 44),
-(8, 44),
 (1, 120),
 (12, 120),
-(1, 121),
-(1, 43),
 (1, 123),
 (1, 135),
-(1, 134),
 (1, 136),
 (1, 3),
 (13, 3),
@@ -94,13 +87,22 @@ INSERT INTO `groups_menu` (`id_groups`, `id_menu`) VALUES
 (1, 125),
 (1, 124),
 (1, 141),
-(1, 142),
 (1, 143),
 (13, 145),
 (14, 145),
-(1, 146),
 (1, 144),
-(1, 148);
+(1, 148),
+(15, 146),
+(15, 121),
+(15, 134),
+(1, 142),
+(15, 142),
+(15, 8),
+(15, 121),
+(88, 121),
+(15, 44),
+(15, 43),
+(1, 149);
 
 -- --------------------------------------------------------
 
@@ -139,11 +141,13 @@ CREATE TABLE `krs_mahasiswa` (
 --
 
 INSERT INTO `krs_mahasiswa` (`id`, `id_mahasiswa`, `id_matakuliah`) VALUES
-(9, 24, 45),
-(10, 48, 45),
-(11, 47, 45),
-(12, 46, 45),
-(13, 45, 45);
+(18, 24, 45),
+(19, 48, 45),
+(20, 47, 45),
+(21, 24, 29),
+(22, 20, 29),
+(23, 46, 45),
+(25, 48, 44);
 
 -- --------------------------------------------------------
 
@@ -280,10 +284,20 @@ INSERT INTO `matakuliah_assign` (`id`, `id_matakuliah`, `id_kelas`) VALUES
 CREATE TABLE `materi` (
   `id` int(11) NOT NULL,
   `file_materi` varchar(100) NOT NULL,
-  `nomor_pertemuan` int(11) NOT NULL,
+  `nomor_pertemuan` int(11) DEFAULT 1,
   `id_matakuliah` int(11) NOT NULL,
-  `tanggal_upload` date NOT NULL DEFAULT current_timestamp()
+  `tanggal_upload` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `materi`
+--
+
+INSERT INTO `materi` (`id`, `file_materi`, `nomor_pertemuan`, `id_matakuliah`, `tanggal_upload`) VALUES
+(1, 'Coba_Dummy_PDF_-_Copxys9.pdf', 1, 10, '2023-08-10'),
+(6, 'designer.jpg', 2, 10, '2023-08-10'),
+(7, 'data_scientist2.jpg', 1, 11, '2023-08-10'),
+(8, 'designer1.jpg', 1, 11, '2023-08-10');
 
 -- --------------------------------------------------------
 
@@ -322,7 +336,8 @@ INSERT INTO `menu` (`id_menu`, `sort`, `level`, `parent_id`, `icon`, `label`, `l
 (144, 5, 1, 0, 'fas fa-user-cog', 'Assign Kelas Matakuliah', 'Matakuliah_assign', 'Matakuliah_assign', 1),
 (145, 1, 2, 0, 'fas fa-book', 'Materi', 'Materi', 'materi', 1),
 (146, 1, 2, 142, 'fas fa-door-open', 'Kelas', 'Kelas', 'Kelas', 1),
-(148, 1, 2, 142, 'fas fa-user-graduate', 'KRS Mahasiswa', 'krs_mahasiswa', 'krs_mahasiswa', 1);
+(148, 1, 2, 142, 'fas fa-user-graduate', 'KRS Mahasiswa', 'krs_mahasiswa', 'krs_mahasiswa', 1),
+(149, 1, 2, 0, 'fas fa-book-open', 'Laporan', 'Laporan', '#', 1);
 
 -- --------------------------------------------------------
 
@@ -361,7 +376,8 @@ CREATE TABLE `role` (
 INSERT INTO `role` (`id`, `name`, `description`) VALUES
 (1, 'kaprodi', 'KA PRODI'),
 (13, 'mahasiswa', 'MAHASISWA'),
-(14, 'dosen', 'DOSEN');
+(14, 'dosen', 'DOSEN'),
+(15, 'admin', 'ADMIN');
 
 -- --------------------------------------------------------
 
@@ -429,7 +445,8 @@ INSERT INTO `user` (`id`, `password`, `email`, `active`, `first_name`, `last_nam
 (46, '$2y$08$mhFf3u9DJhrCClKiag6W5.OxpKVbvAMToPJ2g/XatIAjEX.rvWHrG', 'mahasiswa7@gmail.com', 1, 'mahasiswa', '7', '0898764764', 'default.jpg', NULL, NULL, NULL),
 (47, '$2y$08$Zh9J.lOwrcaKbNnCYIhqJ.h0GtytVOS2VesZl238O8GPakQ4SQYU2', 'mahasiswa8@gmail.com', 1, 'mahasiswa', '8', '08964545454', 'default.jpg', NULL, NULL, NULL),
 (48, '$2y$08$4EFEvjNF9C2B0ILAPOo5gekdRK3JhN0nWTQrIwxLGwBmfow/ZqPrS', 'mahasiswa9@gmail.com', 1, 'mahasiswa', '9', '086746436435', 'default.jpg', NULL, NULL, NULL),
-(49, '$2y$08$ybeZ9xLDGSW0V1c5CyzM8uBB0i487G1VXvR5A.EAWM8Tkvyyivl8m', 'mahasiswa10@gmail.com', 1, 'mahasiswa', '10', '0876465454564', 'default.jpg', NULL, NULL, NULL);
+(49, '$2y$08$ybeZ9xLDGSW0V1c5CyzM8uBB0i487G1VXvR5A.EAWM8Tkvyyivl8m', 'mahasiswa10@gmail.com', 1, 'mahasiswa', '10', '0876465454564', 'default.jpg', NULL, NULL, NULL),
+(50, '$2y$08$AmQetkRs.POyiB8m6psOreYNhV957IKR5pSO.x4rWZ9hrRdTwiDKy', 'admin@admin.com', 1, 'Admin', 'Admin', '000000', 'default.jpg', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -469,7 +486,8 @@ INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
 (84, 46, 13),
 (85, 47, 13),
 (86, 48, 13),
-(87, 49, 13);
+(87, 49, 13),
+(88, 50, 15);
 
 --
 -- Indexes for dumped tables
@@ -558,7 +576,7 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT for table `krs_mahasiswa`
 --
 ALTER TABLE `krs_mahasiswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `matakuliah`
@@ -576,13 +594,13 @@ ALTER TABLE `matakuliah_assign`
 -- AUTO_INCREMENT for table `materi`
 --
 ALTER TABLE `materi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 
 --
 -- AUTO_INCREMENT for table `menu_type`
@@ -594,7 +612,7 @@ ALTER TABLE `menu_type`
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `setting`
@@ -606,13 +624,13 @@ ALTER TABLE `setting`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `users_groups`
 --
 ALTER TABLE `users_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 
 --
 -- Constraints for dumped tables
