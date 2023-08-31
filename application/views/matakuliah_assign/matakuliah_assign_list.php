@@ -173,12 +173,13 @@
 
     function get_kelas() {
         $.ajax({
-            url: "kelas/get_kelas",
-            type: "post",
+            url: "Matakuliah_assign/get_kelas",
+            type: "POST",
             async: false,
             dataType: "json",
             success: function(response) {
                 kelas = response;
+                console.log(response)
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(textStatus, errorThrown);

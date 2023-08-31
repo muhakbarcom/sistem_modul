@@ -28,6 +28,14 @@ class Matakuliah_assign extends CI_Controller
         $this->load->view($this->config->item('template') . 'template/backend', $data);
     }
 
+    function get_kelas()
+    {
+        $data = $this->db->get('kelas')->result();
+        print_r(json_encode($data));
+        die;
+        echo json_encode($data);
+    }
+
     public function json()
     {
         header('Content-Type: application/json');

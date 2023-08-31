@@ -31,6 +31,8 @@ class Kelas extends CI_Controller
     function get_kelas()
     {
         $data = $this->db->get('kelas')->result();
+        print_r(json_encode($data));
+        die;
         echo json_encode($data);
     }
 

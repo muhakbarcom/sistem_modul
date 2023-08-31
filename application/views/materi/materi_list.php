@@ -18,7 +18,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-8"><h5>${data.kode_matakuliah} ${data.nama_matakuliah}</h5></div>
-                                    <div class="col-md-4 justify-content-end"><center><a href="<?= base_url('materi/detail_materi/') ?>${data.id}" class="btn btn-primary">Lihat Materi</a></center></div>
+                                    <div class="col-md-4 justify-content-end"><center><a href="<?= base_url('materi/detail_materi/') ?>${data.id}" class="btn btn-primary">Tambah Materi</a></center></div>
                                 </div>
                             </div>
                         </div>

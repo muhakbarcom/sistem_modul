@@ -161,16 +161,6 @@ $setting_aplikasi = $this->db->get('setting')->row();
                 <a href="<?php echo base_url('profile'); ?>" class="dropdown-item has-icon">
                   <i class="far fa-user"></i> Profile
                 </a>
-                <?php if ($this->ion_auth->in_group('13')) : ?>
-                  <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon">
-                    <i class="fas fa-pencil-alt"></i> Nilai
-                  </a>
-
-                <?php endif; ?>
-                <?php if ($this->ion_auth->in_group('14')) : ?>
-
-
-                <?php endif; ?>
                 <div class="dropdown-divider"></div>
                 <a href="<?= base_url('auth/logout'); ?>" class="dropdown-item has-icon text-danger">
                   <i class="fas fa-sign-out-alt"></i> Logout
